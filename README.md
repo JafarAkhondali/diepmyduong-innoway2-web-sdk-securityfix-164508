@@ -6,7 +6,7 @@ Run `npm install`
 
 ## Build
 
-Run `npm run prepublish`
+Run `npm run build`
 
 ## Test
 

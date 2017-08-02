@@ -1,8 +1,8 @@
 {
-  "name": "chatgut",
+  "name": "innoway2",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/chatgut.min.js",
+  "main": "dist/innoway2.min.js",
   "scripts": {
     "build": "webpack --debug; webpack -p;",
     "test": "node test/index.js"
