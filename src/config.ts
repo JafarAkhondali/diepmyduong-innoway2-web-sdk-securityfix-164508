@@ -3,8 +3,9 @@ export class Config {
 
     constructor(options:any = {}){
         var options:any = {
-            host: 'https://jerry-chatbot.herokuapp.com/',
-            facebook_app_id: '143366482876596'
+            host: 'https://innoway2.herokuapp.com/',
+            facebook_app_id: '143366482876596',
+            version: 'v1',
         }
         options = Object.assign(options,Config.getSettings(),options);
         Config.saveSettings(options);

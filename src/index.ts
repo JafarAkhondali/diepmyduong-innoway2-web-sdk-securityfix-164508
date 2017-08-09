@@ -6,7 +6,7 @@ import { Api } from './api';
 declare var module:any;
 
 module.exports = {
-    init: (options:any) =>{
+    init : (options:any) => {
         new Config(options);
     },
     api: Api
