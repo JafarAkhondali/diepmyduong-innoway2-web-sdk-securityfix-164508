@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var mylib = require('../dist/chatgut.min.js');
+var mylib = require('../dist/innoway2.min.js');
 
 describe('TestClass', function () {
   it('is contained within MyLib as CommonJS', function () {

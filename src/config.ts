@@ -1,18 +1,19 @@
 'use strict';
 export class Config {
 
+    defaultConfig = {
+        host: 'https://innoway2.herokuapp.com/',
+        facebook_app_id: '143366482876596',
+        version: 'v1'
+    }
+    
     constructor(options:any = {}){
-        var options:any = {
-            host: 'https://innoway2.herokuapp.com/',
-            facebook_app_id: '143366482876596',
-            version: 'v1',
-        }
-        options = Object.assign(options,Config.getSettings(),options);
+        options = Object.assign(this.defaultConfig,Config.getSettings() || {},options);
         Config.saveSettings(options);
     }
 
     public static get(key:string){
-        var options = Config.getSettings();
+        var options = Config.getSettings() || {};
         return options[key]; 
     }
 
@@ -24,10 +25,10 @@ export class Config {
     }
 
     public static getSettings(){
-        return JSON.parse(sessionStorage.getItem('chatgut.config'));
+        return JSON.parse(sessionStorage.getItem('innoway2.config'));
     }
 
     public static saveSettings(settings:any){
-        sessionStorage.setItem('chatgut.config',JSON.stringify(settings));
+        sessionStorage.setItem('innoway2.config',JSON.stringify(settings));
     }
 }

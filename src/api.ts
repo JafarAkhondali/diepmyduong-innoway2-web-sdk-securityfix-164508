@@ -14,9 +14,13 @@ export class Api {
         return new Promise((resolve:any,reject:any)=>{
             try { 
                 $.ajax(settings).done((response:any) => {
-                    resolve(response);
+                    if(response.code === 200){
+                        resolve(response);
+                    }else{
+                        reject(response)
+                    }
                 }).fail((request:any,err:any,status:any) => {
-                    reject(err,status);
+                    reject(request.responseJSON);
                 });
             }catch(err){
                 reject(err);
@@ -24,11 +28,15 @@ export class Api {
         })
     }
 
+    public static Url(node:string,query = {},params={}){
+        return URL.apiUrl('api/'+Config.get('version')+'/'+node,query,params);
+    }
+
     public static setAccessToken(token:string){
-        sessionStorage.setItem('chatgut.api.token',token);
+        sessionStorage.setItem('innoway2.api.token',token);
     }
 
     public static getAccessToken(){
-        return sessionStorage.getItem('chatgut.api.token');
+        return sessionStorage.getItem('innoway2.api.token');
     }
 }
