@@ -13,6 +13,14 @@ import { ProductStock } from './product_stock';
 const classes = { 
     product: new Product(),
     customer: new Customer(),
+    topping: new Topping(),
+    topping_value: new ToppingValue(),
+    product_topping: new ProductTopping(),
+    attribute: new Attribute(),
+    product_attribute: new ProductAttribute(),
+    product_type: new ProductType(),
+    product_category: new ProductCategory(),
+    product_stock: new ProductStock(),
 };
 
 export default function Module(name) {
