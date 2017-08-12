@@ -1,6 +1,6 @@
 import { Base } from './base';
 
-export class Employee extends Base {
+export class Employee extends Crud {
 
     constructor(){
     	super("employee");

@@ -1,6 +1,6 @@
 import { Base } from './base';
 
-export class BranchWorkingSchedule extends Base {
+export class BranchWorkingSchedule extends Crud {
 
     constructor(){
     	super("branch_working_schedule");
