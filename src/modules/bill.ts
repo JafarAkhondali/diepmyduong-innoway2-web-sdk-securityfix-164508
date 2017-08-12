@@ -1,6 +1,6 @@
-import { Base } from './base';
+import { Crud } from './crud';
 
-export class Bill extends Base {
+export class Bill extends Crud {
 
     constructor(){
     	super("bill");

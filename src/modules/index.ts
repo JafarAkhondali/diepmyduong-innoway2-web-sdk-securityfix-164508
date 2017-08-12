@@ -1,3 +1,5 @@
+import { Info } from './info';
+
 import { Brand } from './brand';
 import { Branch } from './branch';
 import { BranchWorkingSchedule } from './branch_working_schedule';
@@ -31,6 +33,8 @@ import { ShipFee } from './ship_fee';
 
 //Khai báo module được sử dụng
 const classes = { 
+	info: new Info(),
+
 	brand: new Brand(),
 	branch: new Branch(),
 	branch_working_schedule: new BranchWorkingSchedule(),
