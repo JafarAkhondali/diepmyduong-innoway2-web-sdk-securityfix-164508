@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import { Brand } from './brand';
-import { Customer } from './customer';
-=======
->>>>>>> bdc2db5f51dbe34721a6fbaf2fc8aa4340f3f56b
 import { Info } from './info';
 
 import { Brand } from './brand';
@@ -38,20 +33,15 @@ import { ShipFee } from './ship_fee';
 
 //Khai báo module được sử dụng
 const classes = { 
-<<<<<<< HEAD
+	  info: new Info(),
     brand: new Brand(),
-=======
-	info: new Info(),
+    branch: new Branch(),
+    branch_working_schedule: new BranchWorkingSchedule(),
 
-	brand: new Brand(),
-	branch: new Branch(),
-	branch_working_schedule: new BranchWorkingSchedule(),
+    employee: new Employee(),
+    employee_type: new EmployeeType(),
+    employee_location: new EmployeeLocation(),
 
-	employee: new Employee(),
-	employee_type: new EmployeeType(),
-	employee_location: new EmployeeLocation(),
-
->>>>>>> bdc2db5f51dbe34721a6fbaf2fc8aa4340f3f56b
     customer: new Customer(),
     customer_type: new CustomerType(),
     customer_registration: new CustomerRegistration(),

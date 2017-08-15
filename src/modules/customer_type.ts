@@ -1,4 +1,4 @@
-import { Base } from './base';
+import { Crud } from './crud';
 
 export class CustomerType extends Crud {
 
