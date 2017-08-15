@@ -1,5 +1,4 @@
 import { Base } from './base';
-import { Api } from '../api';
 
 export class Info extends Base {
     constructor(){
@@ -17,9 +16,7 @@ export class Info extends Base {
             "url": this.url('',query),
             "method": "GET"
         }
-        console.log("SETTINGS",settings);
         var res:any = await this.exec(settings);
-        console.log("RES",res);
         var row = res.results.object;
         return row;
     }

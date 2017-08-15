@@ -1,3 +1,4 @@
+import { Brand } from './brand';
 import { Customer } from './customer';
 import { Info } from './info';
 
@@ -20,6 +21,7 @@ import { BillSubFee } from './bill_sub_fee';
 
 //Khai báo module được sử dụng
 const classes = { 
+    brand: new Brand(),
     customer: new Customer(),
     info: new Info(),
     product: new Product(),

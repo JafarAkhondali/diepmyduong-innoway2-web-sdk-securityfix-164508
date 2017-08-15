@@ -19,7 +19,7 @@ export class Crud extends Base{
         prev_page: 0
     };
     
-    events = {
+    events:any = {
         ON_CHANGE: "on_change"
     }
     

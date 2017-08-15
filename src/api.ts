@@ -2,6 +2,7 @@
 import { Config } from './config';
 import { URL } from './utils/helper';
 import Module from './modules/index';
+import { Timeout } from './utils/helper';
 declare var $:any;
 
 export class Api {
@@ -33,10 +34,17 @@ export class Api {
     }
 
     public static setAccessToken(token:string){
-        sessionStorage.setItem('innoway2.api.token',token);
+        localStorage.setItem('innoway2.api.token',token);
     }
 
     public static getAccessToken(){
-        return sessionStorage.getItem('innoway2.api.token');
+        return localStorage.getItem('innoway2.api.token');
+    }
+
+    public static async isReady(){
+        while(!Config.inited){
+            await Timeout(200);
+        }
+        return true;
     }
 }

@@ -4,12 +4,64 @@
     <title>Foo</title>
   </head>
   <body>
-    <h1>Foo</h1>
+    <h1>Innoway 2</h1>
+    <h1>Brand ID: <span id="brand_id"></span></h1>
+    <button id="verify_button">Login</button>
+    <div id="customer" style="display:none">
+      <h1>Customer ID : <span id="customer_id"></span></h1>
+      <button id="logout_button">Logout</button>
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="dist/innoway2.min.js"></script>
     <script>
       innoway2.init({
-        host: 'http://localhost:3000/'
+        host: 'http://localhost:3000/',
+        brand_id: 'ddeb9c60-7cb5-11e7-8394-b9e6d7e21a11'
       });
+
+      $button = $('#verify_button');
+      $brand_id = $('#brand_id');
+      $customer = $('#customer');
+      $customer_id = $('#customer_id');
+      $logout_button = $('#logout_button');
+      
+      $brand_id.html(innoway2.config.get('brand_id'));
+      var customerSerivce = innoway2.api.module('customer');
+
+      $logout_button.on('click',()=>{
+        customerSerivce.logout().then(()=>{
+          $button.show();
+          $customer.hide();
+          $customer_id.html("");
+          AkitLogin();
+        })
+      });
+
+      $(customerSerivce).on('on_auth_change',(e,state)=>{
+        console.log("ON STATE CHANGE",state);
+        if(state){
+          $button.hide();
+          $customer.show();
+          console.log("ID",customerSerivce);
+          $customer_id.html(customerSerivce.info.id);
+        }else{
+          innoway2.api.isReady().then(()=>{  
+            AkitLogin();
+          });
+        }
+      })
+
+      function AkitLogin(){
+        customerSerivce.AKitInit().then(()=>{
+          $button = $('#verify_button');
+          $button.on('click',()=>{
+            customerSerivce.AKitLogin("+84","").then(user =>{
+                console.log("User",user);
+            });
+          });
+        });
+      }
+      
     </script>
 </html>
