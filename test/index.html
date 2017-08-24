@@ -63,5 +63,19 @@
         });
       }
       
+      //Test Product
+      var productService = innoway2.api.module('product');
+      var toppingService = innoway2.api.module('topping');
+      var toppingValueService = innoway2.api.module('topping_value');
+
+      var product_id = "ff080d20-886d-11e7-abff-570d77df0e87";
+      productService.getToppings(product_id).then(toppings =>{
+        console.log('TOPPINGS',toppings);
+        toppings.forEach(t =>{
+          toppingService.getValues(t.id).then(values =>{
+            console.log('TOPPING VALUES',values);
+          });
+        })
+      })
     </script>
 </html>

@@ -6,4 +6,6 @@ export class ToppingValue extends Crud {
     	super("topping_value");
     }
 
+    
+
 }
