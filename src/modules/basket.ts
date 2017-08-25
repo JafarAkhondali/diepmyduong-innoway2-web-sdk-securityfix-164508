@@ -92,6 +92,7 @@ export class Basket extends Base {
         var items = this.items;
         this.totalPrice = 0;
         items.forEach(i =>{
+            i.totalPrice = (i.price + i.toppingTotalPrice) * i.amount;
             this.totalPrice += i.totalPrice || 0;
         })
         return this.totalPrice;
