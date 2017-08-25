@@ -10,7 +10,7 @@ export class Basket extends Base {
     }
 
     totalPrice = 0;
-
+    totalCount = 0;
 
     get items(){
         return JSON.parse(localStorage.getItem('innoway2.basket')) || [];
@@ -95,8 +95,10 @@ export class Basket extends Base {
     countBasket(){
         var items = this.items;
         this.totalPrice = 0;
+        this.totalCount = 0;
         items.forEach(i =>{
             i.totalPrice = (i.price + i.toppingTotalPrice) * i.amount;
+            this.totalCount += i.amount;
             this.totalPrice += i.totalPrice || 0;
         })
         return this.totalPrice;
