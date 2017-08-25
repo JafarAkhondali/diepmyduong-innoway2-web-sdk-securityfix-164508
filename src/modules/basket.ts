@@ -27,6 +27,10 @@ export class Basket extends Base {
         this.countBasket();
     }
 
+    get(index){
+        return this.items[index];
+    }
+
     getAll(){
         return this.items;
     }
