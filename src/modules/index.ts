@@ -31,6 +31,8 @@ import { BillSubFee } from './bill_sub_fee';
 
 import { ShipFee } from './ship_fee';
 
+import { Basket } from './basket';
+
 //Khai báo module được sử dụng
 const classes = { 
 	  info: new Info(),
@@ -64,6 +66,8 @@ const classes = {
     bill_sub_fee: new BillSubFee(),
 
     ship_fee: new ShipFee(),
+
+    basket: new Basket()
 };
 
 export default function Module(name) {

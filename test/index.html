@@ -13,6 +13,7 @@
     </div>
     
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
     <script src="dist/innoway2.min.js"></script>
     <script>
       innoway2.init({
@@ -77,5 +78,63 @@
           });
         })
       })
+
+      //Test Basket
+      var basketService = innoway2.api.module('basket');
+      basketService.clear();
+      var pro_1 = {
+        id: "1",
+
+        toppings: [
+          "topping_1",
+          "topping_2"
+        ],
+        amount: 1
+      }
+      var pro_2 = {
+        id: "2",
+        toppings: [
+          "topping_1",
+          "topping_2"
+        ],
+        amount: 1
+      }
+      var pro_3 = {
+        id: "1",
+        toppings: [
+          "topping_1"
+        ],
+        amount: 1
+      }
+      basketService.add(pro_1);
+      basketService.add(pro_2);
+      basketService.add(pro_3);
+      console.log(basketService.getAll());
+
+      function getCurrentLocation(){
+        return new Promise((resolve,reject)=>{
+            navigator.geolocation.getCurrentPosition(function(position) { 
+                resolve(position.coords);
+            },(failure) => {
+                $.getJSON('https://ipinfo.io/geo', function(response) { 
+                    var loc = response.loc.split(',');
+                    var coords = {
+                        latitude: parseFloat(loc[0]),
+                        longitude: parseFloat(loc[1])
+                    };
+                    resolve(coords);
+                }); 
+            });
+        })
+      }
+      getCurrentLocation().then(p =>{
+        console.log('localtion',p);
+        var data = {
+          latitude: p.latitude,
+          longitude: p.longitude
+        }
+        basketService.checkout(data)
+      })
+      
     </script>
 </html>

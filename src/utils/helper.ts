@@ -1,5 +1,7 @@
 import { Config } from '../config';
 
+declare var $:any;
+
 export class URL {
 
     //Author: Dương Jerry
@@ -50,6 +52,23 @@ export class Vendor {
             }).bind(this);
             headEl.appendChild(js);
             js.src = src;
+        })
+    }
+
+    public static getCurrentLocation(){
+        return new Promise((resolve,reject)=>{
+            navigator.geolocation.getCurrentPosition(function(position) { 
+                resolve(position.coords);
+            },(failure) => {
+                $.getJSON('https://ipinfo.io/geo', function(response) { 
+                    var loc = response.loc.split(',');
+                    var coords = {
+                        latitude: loc[0],
+                        longitude: loc[1]
+                    };
+                    resolve(coords);
+                }); 
+            });
         })
     }
 }

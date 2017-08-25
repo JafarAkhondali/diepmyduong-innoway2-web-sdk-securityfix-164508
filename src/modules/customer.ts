@@ -125,10 +125,10 @@ export class Customer extends Crud {
             var row = res.results.object;
             this.info = row;
             this.authenticated = true;
-            console.log("LOGIN WITH TOKEN",this);
             return row;
         }catch(err){
             this.authenticated = false;
+            throw new Error('unAuthenticated');
         }
     }
 

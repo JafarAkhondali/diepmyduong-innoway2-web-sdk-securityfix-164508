@@ -2,7 +2,6 @@
 import {  Config } from './config';
 import { Api } from './api';
 
-
 declare var module:any;
 
 module.exports = {
