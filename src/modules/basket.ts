@@ -87,6 +87,10 @@ export class Basket extends Base {
             }
         });
         data.channel_id = "facebook";
+        data.basket = {
+            items: items,
+            totalPrice: this.totalPrice
+        };
         var bill = await billService.sendBill(data);
         this.clear();
         return bill;
