@@ -43,6 +43,9 @@ export class Crud extends Base{
           "crossDomain": true,
           "url": this.url("",query),
           "method": "GET",
+          "headers": {
+              "access_token": this.access_token
+          }
         }
         var res:any = await this.exec(settings);
         this.pagination = res.pagination;
@@ -67,7 +70,10 @@ export class Crud extends Base{
             "async": true,
             "crossDomain": true,
             "url": this.url('/'+id),
-            "method": "GET"
+            "method": "GET",
+            "headers": {
+                "access_token": this.access_token
+            }
         }
         if(this.itemIndexs[id]){
             return this.items[this.itemIndexs[id]];
@@ -90,7 +96,8 @@ export class Crud extends Base{
             "url": this.url('/'+id),
             "method": "PUT",
             "headers": {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "access_token": this.access_token
             },
             "processData": false,
             "data": JSON.stringify(data)
@@ -116,7 +123,8 @@ export class Crud extends Base{
             "url": this.url('/'+id),
             "method": "DELETE",
             "headers": {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "access_token": this.access_token
             }
         }
         var res:any = await this.exec(settings);
@@ -137,7 +145,8 @@ export class Crud extends Base{
             "url": this.url(),
             "method": "POST",
             "headers": {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "access_token": this.access_token
             },
             "processData": false,
             "data": JSON.stringify(data)
