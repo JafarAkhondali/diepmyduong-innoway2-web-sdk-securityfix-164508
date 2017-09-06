@@ -74,15 +74,15 @@ export class Crud extends Base{
         
         var res:any = await this.exec(settings);
         var row = res.results.object;
-        if(typeof this.itemIndexs[id] != 'undefined'){
-            this.items[this.itemIndexs[id]] = row;
-        }else{
-            this.itemIndexs[row.id] = this.items.length;
-            this.items.push(row);
-        }
-        $(this).trigger(this.events.ON_CHANGE,{
-            items: this.items
-        });
+        // if(typeof this.itemIndexs[id] != 'undefined'){
+        //     this.items[this.itemIndexs[id]] = row;
+        // }else{
+        //     this.itemIndexs[row.id] = this.items.length;
+        //     this.items.push(row);
+        // }
+        // $(this).trigger(this.events.ON_CHANGE,{
+        //     items: this.items
+        // });
         return row;
             
     }
@@ -179,7 +179,6 @@ export class Crud extends Base{
         if(query.fields){
             query.fields = encodeURIComponent(JSON.stringify(query.fields));
         }
-        console.log('query',query);
         return query;
     }
 }
