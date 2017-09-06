@@ -29,7 +29,8 @@ export class Crud extends Base{
         }else{
             return await this.getAllWithQuery();
         }
-    }
+    } 
+    
     
     async getAllWithQuery(query:any = {}){
         query = this._paserQuery(query);
