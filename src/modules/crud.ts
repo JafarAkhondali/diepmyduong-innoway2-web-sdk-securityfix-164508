@@ -30,8 +30,7 @@ export class Crud extends Base{
             return await this.getAllWithQuery();
         }
     } 
-    
-    
+
     async getAllWithQuery(query:any = {}){
         query = this._paserQuery(query);
         var settings = {
@@ -180,6 +179,7 @@ export class Crud extends Base{
         if(query.fields){
             query.fields = encodeURIComponent(JSON.stringify(query.fields));
         }
+        console.log('query',query);
         return query;
     }
 }
