@@ -30,14 +30,9 @@ export class Crud extends Base{
             return await this.getAllWithQuery();
         }
     }
-
+    
     async getAllWithQuery(query:any = {}){
-        if(query.filter){
-            query.filter = encodeURIComponent(JSON.stringify(query.filter));
-        }
-        if(query.order){
-            query.order = encodeURIComponent(JSON.stringify(query.order));
-        }
+        query = this._paserQuery(query);
         var settings = {
           "async": true,
           "crossDomain": true,
@@ -52,7 +47,7 @@ export class Crud extends Base{
         this.currentPageCount = res.results.objects.count;
         var rows = res.results.objects.rows
         rows.forEach(row => {
-            if(this.itemIndexs[row.id]){
+            if(typeof this.itemIndexs[row.id] != 'undefined'){
                 this.items[this.itemIndexs[row.id]] = row;
             }else{
                 this.itemIndexs[row.id] = this.items.length;
@@ -65,28 +60,31 @@ export class Crud extends Base{
         return rows;
     }
 
-    async get(id:string){
+    async get(id:string,query:any = {}){
+        query = this._paserQuery(query);
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": this.url('/'+id),
+            "url": this.url('/'+id,query),
             "method": "GET",
             "headers": {
                 "access_token": this.access_token
             }
         }
-        if(this.itemIndexs[id]){
-            return this.items[this.itemIndexs[id]];
+        
+        var res:any = await this.exec(settings);
+        var row = res.results.object;
+        if(typeof this.itemIndexs[id] != 'undefined'){
+            this.items[this.itemIndexs[id]] = row;
         }else{
-            var res:any = await this.exec(settings);
-            var row = res.results.object;
             this.itemIndexs[row.id] = this.items.length;
             this.items.push(row);
-            $(this).trigger(this.events.ON_CHANGE,{
-                items: this.items
-            });
-            return row;
         }
+        $(this).trigger(this.events.ON_CHANGE,{
+            items: this.items
+        });
+        return row;
+            
     }
 
     async update(id:string,data:any){
@@ -166,5 +164,21 @@ export class Crud extends Base{
         this.items.forEach((item,index) => {
             this.itemIndexs[item.id] = index;
         });
+    }
+
+    private _paserQuery(query:any = {}){
+        if(query.filter){
+            query.filter = encodeURIComponent(JSON.stringify(query.filter));
+        }
+        if(query.order){
+            query.order = encodeURIComponent(JSON.stringify(query.order));
+        }
+        if(query.scopes){
+            query.scopes = encodeURIComponent(JSON.stringify(query.scopes));
+        }
+        if(query.fields){
+            query.fields = encodeURIComponent(JSON.stringify(query.fields));
+        }
+        return query;
     }
 }

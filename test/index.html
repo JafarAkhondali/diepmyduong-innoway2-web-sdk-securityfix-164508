@@ -63,78 +63,83 @@
           });
         });
       }
+
+
       
-      //Test Product
+      // //Test Product
       var productService = innoway2.api.module('product');
-      var toppingService = innoway2.api.module('topping');
-      var toppingValueService = innoway2.api.module('topping_value');
-
-      var product_id = "ff080d20-886d-11e7-abff-570d77df0e87";
-      productService.getToppings(product_id).then(toppings =>{
-        console.log('TOPPINGS',toppings);
-        toppings.forEach(t =>{
-          toppingService.getValues(t.id).then(values =>{
-            console.log('TOPPING VALUES',values);
-          });
-        })
+      $(productService).on('on_change',(e,data) =>{
+        console.log('products',data.items);
       })
+      // var toppingService = innoway2.api.module('topping');
+      // var toppingValueService = innoway2.api.module('topping_value');
 
-      //Test Basket
-      var basketService = innoway2.api.module('basket');
-      basketService.clear();
-      var pro_1 = {
-        id: "1",
+      // var product_id = "ff080d20-886d-11e7-abff-570d77df0e87";
+      // productService.getToppings(product_id).then(toppings =>{
+      //   console.log('TOPPINGS',toppings);
+      //   toppings.forEach(t =>{
+      //     toppingService.getValues(t.id).then(values =>{
+      //       console.log('TOPPING VALUES',values);
+      //     });
+      //   })
+      // })
 
-        toppings: [
-          "topping_1",
-          "topping_2"
-        ],
-        amount: 1
-      }
-      var pro_2 = {
-        id: "2",
-        toppings: [
-          "topping_1",
-          "topping_2"
-        ],
-        amount: 1
-      }
-      var pro_3 = {
-        id: "1",
-        toppings: [
-          "topping_1"
-        ],
-        amount: 1
-      }
-      basketService.add(pro_1);
-      basketService.add(pro_2);
-      basketService.add(pro_3);
-      console.log(basketService.getAll());
+      // //Test Basket
+      // var basketService = innoway2.api.module('basket');
+      // basketService.clear();
+      // var pro_1 = {
+      //   id: "1",
 
-      function getCurrentLocation(){
-        return new Promise((resolve,reject)=>{
-            navigator.geolocation.getCurrentPosition(function(position) { 
-                resolve(position.coords);
-            },(failure) => {
-                $.getJSON('https://ipinfo.io/geo', function(response) { 
-                    var loc = response.loc.split(',');
-                    var coords = {
-                        latitude: parseFloat(loc[0]),
-                        longitude: parseFloat(loc[1])
-                    };
-                    resolve(coords);
-                }); 
-            });
-        })
-      }
-      getCurrentLocation().then(p =>{
-        console.log('localtion',p);
-        var data = {
-          latitude: p.latitude,
-          longitude: p.longitude
-        }
-        basketService.checkout(data)
-      })
+      //   toppings: [
+      //     "topping_1",
+      //     "topping_2"
+      //   ],
+      //   amount: 1
+      // }
+      // var pro_2 = {
+      //   id: "2",
+      //   toppings: [
+      //     "topping_1",
+      //     "topping_2"
+      //   ],
+      //   amount: 1
+      // }
+      // var pro_3 = {
+      //   id: "1",
+      //   toppings: [
+      //     "topping_1"
+      //   ],
+      //   amount: 1
+      // }
+      // basketService.add(pro_1);
+      // basketService.add(pro_2);
+      // basketService.add(pro_3);
+      // console.log(basketService.getAll());
+
+      // function getCurrentLocation(){
+      //   return new Promise((resolve,reject)=>{
+      //       navigator.geolocation.getCurrentPosition(function(position) { 
+      //           resolve(position.coords);
+      //       },(failure) => {
+      //           $.getJSON('https://ipinfo.io/geo', function(response) { 
+      //               var loc = response.loc.split(',');
+      //               var coords = {
+      //                   latitude: parseFloat(loc[0]),
+      //                   longitude: parseFloat(loc[1])
+      //               };
+      //               resolve(coords);
+      //           }); 
+      //       });
+      //   })
+      // }
+      // getCurrentLocation().then(p =>{
+      //   console.log('localtion',p);
+      //   var data = {
+      //     latitude: p.latitude,
+      //     longitude: p.longitude
+      //   }
+      //   basketService.checkout(data)
+      // })
       
     </script>
 </html>
