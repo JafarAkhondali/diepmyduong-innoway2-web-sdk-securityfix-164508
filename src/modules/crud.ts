@@ -159,6 +159,32 @@ export class Crud extends Base{
         return row;
     }
 
+    async deleteAll(ids:string[]){
+        let query = this._paserQuery({items: ids })
+        let settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url('/',query),
+            "method": "DELETE",
+            "headers": {
+                "content-type": "application/json",
+                "access_token": this.access_token
+            }
+        }
+        let res:any = await this.exec(settings);
+        let row = res.results.object;
+        ids.forEach(id =>{
+            if(this.itemIndexs[id]){
+                this.items.splice(this.itemIndexs[id],1);
+            }
+        })
+        this.reIndexItems();
+        $(this).trigger(this.events.ON_CHANGE,{
+            items: this.items
+        });
+        return row;
+    }
+
     private reIndexItems(){
         this.itemIndexs = {};
         this.items.forEach((item,index) => {
@@ -178,6 +204,9 @@ export class Crud extends Base{
         }
         if(query.fields){
             query.fields = encodeURIComponent(JSON.stringify(query.fields));
+        }
+        if(query.items){
+            query.items = encodeURIComponent(JSON.stringify(query.items));
         }
         return query;
     }
