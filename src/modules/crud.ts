@@ -1,7 +1,7 @@
 import { Base } from './base'
 import { Api } from '../api';
 
-declare var $:any;
+declare var $,_:any;
 
 export class Crud extends Base{
     
@@ -173,11 +173,9 @@ export class Crud extends Base{
         }
         let res:any = await this.exec(settings);
         let row = res.results.object;
-        ids.forEach(id =>{
-            if(this.itemIndexs[id]){
-                this.items.splice(this.itemIndexs[id],1);
-            }
-        })
+        _.remove(this.items, function (item) {
+            return _.indexOf(ids, item.id) !== -1
+        });
         this.reIndexItems();
         $(this).trigger(this.events.ON_CHANGE,{
             items: this.items
