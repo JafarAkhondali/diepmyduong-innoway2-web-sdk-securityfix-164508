@@ -12,13 +12,13 @@
       <button id="logout_button">Logout</button>
     </div>
     
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="dist/assets/js/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
     <script src="dist/innoway2.min.js"></script>
     <script>
       innoway2.init({
-        // host: 'http://localhost:3000/',
-        host: 'https://innoway2.herokuapp.com/',
+        host: 'http://localhost:3000/',
+        // host: 'https://innoway2.herokuapp.com/',
         brand_id: '3791cbd0-8eeb-11e7-9619-576bbea02309'
       });
 
@@ -71,6 +71,11 @@
       var productService = innoway2.api.module('product');
       $(productService).on('on_change',(e,data) =>{
         console.log('products',data.items);
+      })
+
+      var categoryService = innoway2.api.module('product_category');
+      $(categoryService).on('on_change',(e,data) =>{
+        console.log('categories',data.items);
       })
       // var toppingService = innoway2.api.module('topping');
       // var toppingValueService = innoway2.api.module('topping_value');

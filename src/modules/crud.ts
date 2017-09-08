@@ -1,16 +1,27 @@
 import { Base } from './base'
 import { Api } from '../api';
 
-declare var $,_:any;
+declare let $,_:any;
 
 export class Crud extends Base{
     
     constructor(module){
         super(module);
     }
+    _items = []
 
-    items = [];
-    itemIndexs = {};
+    get items(){
+        return this._items;
+    }
+
+    set items(items){
+        this._items = items;
+        console.log('set items',this._items);
+        $(this).trigger(this.events.ON_CHANGE,{
+            items: this._items
+        });
+    }
+    // itemIndexs = {};
     currentPageCount = 0;
     pagination = {
         current_page: 0,
@@ -21,6 +32,10 @@ export class Crud extends Base{
     
     events:any = {
         ON_CHANGE: "on_change"
+    }
+
+    private onChange(){
+        
     }
     
     async getAll(){
@@ -33,7 +48,7 @@ export class Crud extends Base{
 
     async getAllWithQuery(query:any = {}){
         query = this._paserQuery(query);
-        var settings = {
+        let settings = {
           "async": true,
           "crossDomain": true,
           "url": this.url("",query),
@@ -42,27 +57,17 @@ export class Crud extends Base{
               "access_token": this.access_token
           }
         }
-        var res:any = await this.exec(settings);
+        let res:any = await this.exec(settings);
         this.pagination = res.pagination;
         this.currentPageCount = res.results.objects.count;
-        var rows = res.results.objects.rows
-        rows.forEach(row => {
-            if(typeof this.itemIndexs[row.id] != 'undefined'){
-                this.items[this.itemIndexs[row.id]] = row;
-            }else{
-                this.itemIndexs[row.id] = this.items.length;
-                this.items.push(row);
-            }
-        });
-        $(this).trigger(this.events.ON_CHANGE,{
-            items: this.items
-        });
+        let rows = res.results.objects.rows
+        this.items = rows;
         return rows;
     }
 
     async get(id:string,query:any = {}){
         query = this._paserQuery(query);
-        var settings = {
+        let settings = {
             "async": true,
             "crossDomain": true,
             "url": this.url('/'+id,query),
@@ -72,23 +77,13 @@ export class Crud extends Base{
             }
         }
         
-        var res:any = await this.exec(settings);
-        var row = res.results.object;
-        // if(typeof this.itemIndexs[id] != 'undefined'){
-        //     this.items[this.itemIndexs[id]] = row;
-        // }else{
-        //     this.itemIndexs[row.id] = this.items.length;
-        //     this.items.push(row);
-        // }
-        // $(this).trigger(this.events.ON_CHANGE,{
-        //     items: this.items
-        // });
+        let res:any = await this.exec(settings);
+        let row = res.results.object;
         return row;
-            
     }
 
     async update(id:string,data:any){
-        var settings = {
+        let settings = {
             "async": true,
             "crossDomain": true,
             "url": this.url('/'+id),
@@ -100,22 +95,18 @@ export class Crud extends Base{
             "processData": false,
             "data": JSON.stringify(data)
         }
-        var res:any = await this.exec(settings);
-        var row = res.results.object;
-        if(this.itemIndexs[row.id]){
-            this.items[this.itemIndexs[row.id]] = row;
-        }else{
-            this.itemIndexs[row.id] = this.items.length;
-            this.items.push(row);
+        let res:any = await this.exec(settings);
+        let row = res.results.object;
+        let index = _.findIndex(this.items, {id: id});
+        if(index > -1){
+            this.items[index] = row;
+            this.items = this.items
         }
-        $(this).trigger(this.events.ON_CHANGE,{
-            items: this.items
-        });
         return row;
     }
 
     async delete(id:string){
-        var settings = {
+        let settings = {
             "async": true,
             "crossDomain": true,
             "url": this.url('/'+id),
@@ -125,15 +116,12 @@ export class Crud extends Base{
                 "access_token": this.access_token
             }
         }
-        var res:any = await this.exec(settings);
-        if(this.itemIndexs[id]){
-            this.items.splice(this.itemIndexs[id],1);
-            this.reIndexItems();
-            $(this).trigger(this.events.ON_CHANGE,{
-                items: this.items
-            });
-        }
-        return res;
+        let res:any = await this.exec(settings);
+        let deleted = _.remove(this.items, function (item) {
+            return item.id == id;
+        });
+        this.items = this.items;
+        return deleted;
     }
 
     async add(data:any){
@@ -149,13 +137,10 @@ export class Crud extends Base{
             "processData": false,
             "data": JSON.stringify(data)
         }
-        var res:any = await this.exec(settings);
-        var row = res.results.object;
-        this.itemIndexs[row.id] = this.items.length;
+        let res:any = await this.exec(settings);
+        let row = res.results.object;
         this.items.push(row);
-        $(this).trigger(this.events.ON_CHANGE,{
-            items: this.items
-        });
+        this.items = this.items
         return row;
     }
 
@@ -173,21 +158,11 @@ export class Crud extends Base{
         }
         let res:any = await this.exec(settings);
         let row = res.results.object;
-        _.remove(this.items, function (item) {
+        let deleted = _.remove(this.items, function (item) {
             return _.indexOf(ids, item.id) !== -1
         });
-        this.reIndexItems();
-        $(this).trigger(this.events.ON_CHANGE,{
-            items: this.items
-        });
-        return row;
-    }
-
-    private reIndexItems(){
-        this.itemIndexs = {};
-        this.items.forEach((item,index) => {
-            this.itemIndexs[item.id] = index;
-        });
+        this.items = this.items;
+        return deleted;
     }
 
     private _paserQuery(query:any = {}){
