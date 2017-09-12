@@ -33,6 +33,8 @@ import { ShipFee } from './ship_fee';
 
 import { Basket } from './basket';
 
+import { Unit } from './unit';
+
 //Khai báo module được sử dụng
 const classes = { 
 	  info: new Info(),
@@ -67,7 +69,9 @@ const classes = {
 
     ship_fee: new ShipFee(),
 
-    basket: new Basket()
+    basket: new Basket(),
+    
+    unit: new Unit()
 };
 
 export default function Module(name) {
