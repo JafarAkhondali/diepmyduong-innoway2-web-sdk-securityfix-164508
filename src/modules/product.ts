@@ -30,4 +30,42 @@ export class Product extends Crud {
         return toppings;
     }
 
+    async addToppings(id,topping_ids){
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url(`/${id}/toppings`),
+            "headers": {
+                "content-type": "application/json",
+                "access_token": this.access_token,
+            },
+            "method": "POST",
+            "data": JSON.stringify({
+                topping_ids
+            })
+        }
+        var res:any = await this.exec(settings);
+        var rows = res.results.object.rows
+        return rows;
+    }
+
+    async updateToppings(id,topping_ids){
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url(`/${id}/toppings`),
+            "headers": {
+                "content-type": "application/json",
+                "access_token": this.access_token,
+            },
+            "method": "PUT",
+            "data": JSON.stringify({
+                topping_ids
+            })
+        }
+        var res:any = await this.exec(settings);
+        var rows = res.results.object.rows
+        return rows;
+    }
+
 }

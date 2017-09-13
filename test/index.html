@@ -77,10 +77,21 @@
       $(categoryService).on('on_change',(e,data) =>{
         console.log('categories',data.items);
       })
+
       // var toppingService = innoway2.api.module('topping');
       // var toppingValueService = innoway2.api.module('topping_value');
 
-      // var product_id = "ff080d20-886d-11e7-abff-570d77df0e87";
+      var product_id = "e64d9840-91e6-11e7-b757-97cd2eaab21f";
+      var topping_id = "c202d100-963f-11e7-b69a-97988cbacf7c";
+      productService.updateToppings(product_id,[]).then(res =>{
+        console.log('updated',res);
+        productService.addToppings(product_id,[
+          topping_id
+        ]).then(res =>{
+          console.log('added',res);
+        })
+      })
+     
       // productService.getToppings(product_id).then(toppings =>{
       //   console.log('TOPPINGS',toppings);
       //   toppings.forEach(t =>{
