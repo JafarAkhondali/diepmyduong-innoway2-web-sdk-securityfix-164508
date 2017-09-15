@@ -35,6 +35,8 @@ import { Basket } from './basket';
 
 import { Unit } from './unit';
 
+import { Promotion } from './promotion';
+
 //Khai báo module được sử dụng
 const classes = { 
 	  info: new Info(),
@@ -71,7 +73,9 @@ const classes = {
 
     basket: new Basket(),
     
-    unit: new Unit()
+    unit: new Unit(),
+
+    promotion: new Promotion()
 };
 
 export default function Module(name) {
