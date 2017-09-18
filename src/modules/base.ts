@@ -9,8 +9,8 @@ export class Base {
         this.module = module;
     }
     
-    get access_token(){
-        return Api.getAccessToken();
+    async getAccessToken(){
+        return await Api.getAccessToken();
     }
 
     async exec(settings){

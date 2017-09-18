@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Foo</title>
+  </head>
+  <body>
+    <h1>Innoway 2</h1>
+    <h1>Brand ID: <span id="brand_id"></span></h1>
+    <div id="login_frm">
+      <input type="text" id="frm_email">
+      <input type="password" id="frm_password">
+      <button id="btn_login">Login</button>
+    </div>
+    
+    <div id="employee" style="display:none">
+      <h1>Employee ID : <span id="employee_id"></span></h1>
+      <p>Token : <span id="access_token"></span></p>
+      <button id="btn_logout">Logout</button>
+    </div>
+    
+    <script src="../dist/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+    <script src="../dist/innoway2.min.js"></script>
+    <script>
+      innoway2.init({
+        host: 'http://localhost:3000/',
+        // host: 'https://innoway2.herokuapp.com/',
+        brand_id: '3791cbd0-8eeb-11e7-9619-576bbea02309'
+      });
+
+      $button = $('#btn_login');
+      $frm_login = $('#login_frm')
+      $frm_email = $('#frm_email')
+      $frm_password = $('#frm_password')
+      $brand_id = $('#brand_id');
+      $employee = $('#employee');
+      $employee_id = $('#employee_id');
+      $access_token = $('#access_token');
+      $button_logout = $('#btn_logout');
+      
+      $brand_id.html(innoway2.config.get('brand_id'));
+      var authService = innoway2.api.module('auth');
+      authService.getAuthState().then(onState);
+      $(authService).on('on_auth_change',(e,state)=>{
+        onState(state);
+      })
+
+      function onState(state){
+        console.log('on state',state);
+        if(state){
+            $employee.show()
+            $employee_id.html(authService.userInfo.id)
+            innoway2.api.getAccessToken().then(token =>{
+              $access_token.html(token)
+            })
+            
+            $frm_login.hide()
+        }else{
+            $employee.hide()
+            $employee_id.html("")
+            $access_token.html("")
+            $frm_login.show()
+        }
+      }
+      $button_logout.on('click',()=>{
+        authService.logout()
+      });
+
+      $button.on('click',()=>{
+        let email = $frm_email.val()
+        let password = $frm_password.val()
+        authService.LoginWithEmailAndPassword(email,password)
+      })
+
+
+      
+    </script>
+</html>

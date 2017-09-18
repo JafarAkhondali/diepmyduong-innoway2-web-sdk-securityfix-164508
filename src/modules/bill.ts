@@ -9,6 +9,8 @@ export class Bill extends Crud {
 
     async sendBill(data){
         
+        let access_token = await this.getAccessToken()
+
         var settings = {
             "async": true,
             "crossDomain": true,
@@ -16,7 +18,7 @@ export class Bill extends Crud {
             "method": "POST",
             "headers": {
                 "content-type": "application/json",
-                "access_token": this.access_token,
+                "access_token": access_token,
             },
             "processData": false,
             "data": JSON.stringify(data)

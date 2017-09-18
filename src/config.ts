@@ -26,16 +26,16 @@ export class Config {
             throw new Error("Innoway2 : Brand Id is required!");
         }
         Config.saveSettings(options);
-        if(!Api.getAccessToken()){
-            getBrandToken();
-        }else{
-            Api.module('customer').loginWithToken().then(customer =>{
-                Config.inited = true;
-            }).catch(err =>{
-                getBrandToken();
-                throw new Error(err);
-            })
-        }
+        // if(!Api.getAccessToken()){
+        //     getBrandToken();
+        // }else{
+        //     Api.module('customer').loginWithToken().then(customer =>{
+        //         Config.inited = true;
+        //     }).catch(err =>{
+        //         getBrandToken();
+        //         throw new Error(err);
+        //     })
+        // }
     }
 
     public static get(key:string){

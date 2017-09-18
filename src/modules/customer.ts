@@ -2,7 +2,7 @@ import { Crud } from './crud';
 import { Api } from '../api';
 import { Vendor,Timeout } from '../utils/helper';
 
-declare var window,AccountKit,$:any;
+declare let window,AccountKit,$:any;
 
 
 export class Customer extends Crud {
@@ -23,22 +23,23 @@ export class Customer extends Crud {
     }
 
     private async getVerifyToken(){
-        var settings = {
+        let access_token = await this.getAccessToken()
+        let settings = {
             "async": true,
             "crossDomain": true,
             "url": this.url('/get_verify_token'),
             "headers": {
-                "access_token": this.access_token,
+                "access_token": access_token,
             },
             "method": "GET"
         }
-        var res:any = await this.exec(settings);
-        var row = res.results.object;
+        let res:any = await this.exec(settings);
+        let row = res.results.object;
         return row.verify_token;
     }
 
     async AKitVerify(authStateInfo){
-        var settings = {
+        let settings = {
             "async": true,
             "crossDomain": true,
             "url": this.url("/verify_phone"),
@@ -51,8 +52,8 @@ export class Customer extends Crud {
             "data": JSON.stringify(authStateInfo)
         }
 
-        var res:any = await this.exec(settings);
-        var row = res.results.object;
+        let res:any = await this.exec(settings);
+        let row = res.results.object;
         Api.setAccessToken(row.access_token);
         this.loginWithToken();
         return row;
@@ -60,10 +61,10 @@ export class Customer extends Crud {
 
     async AKitInit(){
         this.verify_token = await this.getVerifyToken();
-        var tokenInfo = await Api.module('info').getTokenInfo(this.verify_token);
-        var options = tokenInfo.payload;
+        let tokenInfo = await Api.module('info').getTokenInfo(this.verify_token);
+        let options = tokenInfo.payload;
         if(typeof AccountKit === "undefined" || typeof AccountKit.init === "undefined"){
-            var accountkitSrc = "https://sdk.accountkit.com/"+options.locale+"/sdk.js";
+            let accountkitSrc = "https://sdk.accountkit.com/"+options.locale+"/sdk.js";
             await Vendor.loadScript(accountkitSrc,{id: "accoutkit_sdk"});
             while(typeof AccountKit === "undefined" || typeof AccountKit.init === "undefined" ){
                 await Timeout(500);
@@ -111,18 +112,19 @@ export class Customer extends Crud {
     }
 
     async loginWithToken(){
-        var settings = {
+        let access_token = await this.getAccessToken()
+        let settings = {
             "async": true,
             "crossDomain": true,
             "url": this.url('/login_with_token'),
             "headers": {
-                "access_token": this.access_token,
+                "access_token": access_token,
             },
             "method": "GET"
         }
         try {
-            var res:any = await this.exec(settings);
-            var row = res.results.object;
+            let res:any = await this.exec(settings);
+            let row = res.results.object;
             this.info = row;
             this.authenticated = true;
             return row;
@@ -133,7 +135,7 @@ export class Customer extends Crud {
     }
 
     async logout(){
-        var brand_token = await Api.module('brand').getBrandToken();
+        let brand_token = await Api.module('brand').getBrandToken();
         Api.setAccessToken(brand_token);
         this.info = {};
         this.authenticated = false;

@@ -3,7 +3,7 @@ import { Config } from './config';
 import { URL } from './utils/helper';
 import Module from './modules/index';
 import { Timeout } from './utils/helper';
-declare var $:any;
+declare var $,_:any;
 
 export class Api {
  
@@ -37,8 +37,13 @@ export class Api {
         localStorage.setItem('innoway2.api.token',token);
     }
 
-    public static getAccessToken(){
-        return localStorage.getItem('innoway2.api.token');
+    public static async getAccessToken(){
+        let token = localStorage.getItem('innoway2.api.token');
+        if(!_.isString(token) || !_.trim(token)){
+            token = await Api.module('brand').getBrandToken();
+            Api.setAccessToken(token); 
+        }
+        return token;
     }
 
     public static async isReady(){

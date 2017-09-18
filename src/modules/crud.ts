@@ -16,7 +16,6 @@ export class Crud extends Base{
 
     set items(items){
         this._items = items;
-        console.log('set items',this._items);
         $(this).trigger(this.events.ON_CHANGE,{
             items: this._items
         });
@@ -47,6 +46,7 @@ export class Crud extends Base{
     } 
 
     async getAllWithQuery(query:any = {}){
+        let access_token = await this.getAccessToken()
         query = this._paserQuery(query);
         let settings = {
           "async": true,
@@ -54,7 +54,7 @@ export class Crud extends Base{
           "url": this.url("",query),
           "method": "GET",
           "headers": {
-              "access_token": this.access_token
+              "access_token": access_token
           }
         }
         let res:any = await this.exec(settings);
@@ -66,6 +66,7 @@ export class Crud extends Base{
     }
 
     async get(id:string,query:any = {}){
+        let access_token = await this.getAccessToken()
         query = this._paserQuery(query);
         let settings = {
             "async": true,
@@ -73,7 +74,7 @@ export class Crud extends Base{
             "url": this.url('/'+id,query),
             "method": "GET",
             "headers": {
-                "access_token": this.access_token
+                "access_token": access_token
             }
         }
         
@@ -83,6 +84,7 @@ export class Crud extends Base{
     }
 
     async update(id:string,data:any){
+        let access_token = await this.getAccessToken()
         let settings = {
             "async": true,
             "crossDomain": true,
@@ -90,7 +92,7 @@ export class Crud extends Base{
             "method": "PUT",
             "headers": {
                 "content-type": "application/json",
-                "access_token": this.access_token
+                "access_token": access_token
             },
             "processData": false,
             "data": JSON.stringify(data)
@@ -106,6 +108,7 @@ export class Crud extends Base{
     }
 
     async delete(id:string){
+        let access_token = await this.getAccessToken()
         let settings = {
             "async": true,
             "crossDomain": true,
@@ -113,7 +116,7 @@ export class Crud extends Base{
             "method": "DELETE",
             "headers": {
                 "content-type": "application/json",
-                "access_token": this.access_token
+                "access_token": access_token
             }
         }
         let res:any = await this.exec(settings);
@@ -125,6 +128,7 @@ export class Crud extends Base{
     }
 
     async add(data:any){
+        let access_token = await this.getAccessToken()
         var settings = {
             "async": true,
             "crossDomain": true,
@@ -132,7 +136,7 @@ export class Crud extends Base{
             "method": "POST",
             "headers": {
                 "content-type": "application/json",
-                "access_token": this.access_token
+                "access_token": access_token
             },
             "processData": false,
             "data": JSON.stringify(data)
@@ -145,6 +149,7 @@ export class Crud extends Base{
     }
 
     async deleteAll(ids:string[]){
+        let access_token = await this.getAccessToken()
         let query = this._paserQuery({items: ids })
         let settings = {
             "async": true,
@@ -153,7 +158,7 @@ export class Crud extends Base{
             "method": "DELETE",
             "headers": {
                 "content-type": "application/json",
-                "access_token": this.access_token
+                "access_token": access_token
             }
         }
         let res:any = await this.exec(settings);

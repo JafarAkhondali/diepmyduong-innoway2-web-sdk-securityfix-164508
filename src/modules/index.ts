@@ -37,6 +37,8 @@ import { Unit } from './unit';
 
 import { Promotion } from './promotion';
 
+import { Auth } from './auth';
+
 //Khai báo module được sử dụng
 const classes = { 
 	  info: new Info(),
@@ -75,7 +77,9 @@ const classes = {
     
     unit: new Unit(),
 
-    promotion: new Promotion()
+    promotion: new Promotion(),
+
+    auth: new Auth()
 };
 
 export default function Module(name) {
