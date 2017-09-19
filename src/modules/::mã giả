@@ -1,0 +1,473 @@
+//mã giả
+
+request{ //sendBill
+	customerId; //require
+	longitude; //require
+	latitude; //require
+	address; //require
+
+	price;
+	promotionId;
+	branchId;
+	items:[{productId, amount, topping_values[]}];
+	subfee:[{price, description}]
+	actions:[{action, employee_id}] // có thể có nhiều trạng thái cập nhật, các trạng thái còn lại duy nhất
+	shipDetail: [fee, type]
+}
+
+response{
+	
+}
+
+checkTrustPoint(): boolean{
+	if(customer.trustPoint < 0){
+		changeStatusBillToCancel(bill.Id);
+		sendNotificationAboutWarningTrustPoint(bill.customerId);
+		return false;
+	}
+	return true;
+}
+
+sendBill(..params){
+	if(branch==null){
+		branch = detectSuitableBranch(bill); //tính khoảng cách ngắn nhất --> dưới 10 đơn hàng "đang xử lý"
+	}
+
+	let isSuccess = createBill(params);
+	if(isSuccess){
+		changeStatusBillToSuccess(bill.Id);
+	}
+}
+
+calculateShipFee(brand.shipPaymentMethod, bill.location, branch.location): double{
+	switch(brand.shipPaymentMethod){
+		case "distance":{
+			calculate(distance);
+			break;
+		}
+		case "district":{
+			calculate(bill.district);
+			break;
+		}
+	}
+	return fee;
+}
+
+checkStock(branchId): boolean{
+	// kiểm tra còn hàng hay không
+	// căn cứ vào type và amount
+}
+
+createBill(..params): boolean{
+	
+}
+
+
+-2: "chỉnh sửa thông tin đơn hàng" // có nhiều
+-1: "đã hủy"
+0: "đặt hàng thành công"
+1: "đang được điều phối"
+2: "đang được xử lý"
+3: "đã chuẩn bị"
+4: "đã chuyển cho giao hàng"
+5: "đang giao"
+6: "đã thanh toán"
+7: "đã thu tiền"
+
+changeStatusBill(accessToken, bill, status): boolean{
+	let employeeType = detectPermissionOfEmployee(accessToken);
+	switch (employeeType){
+		case admin:{
+			switch (checkCurrentStatusBill(bill.Id)){
+				case -1:{
+					return false;
+					break;
+				}
+				case 0:{
+					if(status == 1){
+						changeStatusBillToDistribute(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 1:{
+					if(status == 2){
+						changeStatusBillToHandle(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 2:{
+					if(status == 3){
+						changeStatusBillToPrepare(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 3:{
+					if(status == 4){
+						changeStatusBillToSendRider(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 4:{
+					if(status == 5){
+						changeStatusBillToDelivery(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 5:{
+					if(status == 6){
+						changeStatusBillToPay(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 6:{
+					if(status == 7){
+						changeStatusBillToReceiveMoney(bill.Id);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 7:{
+					return false;
+					break;
+				}
+			}
+			break;
+		}
+		case manager:{
+			switch (checkCurrentStatusBill(bill.Id)){
+				case -1:{
+					return false;
+					break;
+				}
+				case 0:{
+					if(status == 1){
+						changeStatusBillToDistribute(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 1:{
+					if(status == 2){
+						changeStatusBillToHandle(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 2:{
+					if(status == 3){
+						changeStatusBillToPrepare(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 3:{
+					if(status == 4){
+						changeStatusBillToSendRider(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 4:{
+					if(status == 5){
+						changeStatusBillToDelivery(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 5:{
+					if(status == 6){
+						changeStatusBillToPay(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 6:{
+					if(status == 7){
+						changeStatusBillToReceiveMoney(bill.Id);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 7:{
+					return false;
+					break;
+				}
+			}
+			break;
+		}
+		case operator:{
+			switch (checkCurrentStatusBill(bill.Id)){
+				case -1:{
+					return false;
+					break;
+				}
+				case 0:{
+					if(status == 1){
+						changeStatusBillToDistribute(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 1:{
+					if(status == 2){
+						changeStatusBillToHandle(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 2:{
+					if(status == 3){
+						changeStatusBillToPrepare(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 3:{
+					if(status == 4){
+						changeStatusBillToSendRider(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 4:{
+					if(status == 5){
+						changeStatusBillToDelivery(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 5:{
+					if(status == 6){
+						changeStatusBillToPay(bill.Id);
+					}else if(status == -1){
+						changeStatusBillToCancel(bill.Id, minusTrustPointOfEmployee);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 6:{
+					if(status == 7){
+						changeStatusBillToReceiveMoney(bill.Id);
+					}else{
+						return false;
+					}
+					break;
+				}
+				case 7:{
+					return false;
+					break;
+				}
+			}
+			break;
+		}
+		case checker:{
+			switch (checkCurrentStatusBill(bill.Id)){
+				case 3:{
+					if(status == 4){
+						changeStatusBillToSendRider(bill.Id);
+					}
+					break;
+				}
+				default:{
+					return false;
+				}
+			}
+			break;
+		}
+		case rider:{
+			switch (checkCurrentStatusBill(bill.Id)){
+				case 4:{
+					if(status == 5){
+						changeStatusBillToDelivery(bill.Id);
+					}else if(status == -1){
+						sendNotificationAboutCancelBill(bill.Id);
+					}
+					break;
+				}
+				case 5:{
+					if(status == 6){
+						changeStatusBillToPay(bill.Id);
+					}
+					break;
+				}
+				default:{
+					return false;
+				}
+			}
+			break;
+		}
+	}
+	return true;
+}
+
+changeStatusBillAutomaticlly(bill){
+	let currentStatus = checkCurrentStatusBill(bill);
+	switch (currentStatus){
+		case -2:{			
+			break;
+		}
+		case -1:{
+			break;
+		}
+		case 0:{
+			changeStatusBillToDistribute(bill.Id);
+			break;
+		}
+		case 1:{
+			changeStatusBillToHandle(bill.Id);
+			break;
+		}
+		case 2:{
+			changeStatusBillToPrepare(bill.Id);
+			break;
+		}
+		case 3:{//employee
+			changeStatusBillToSendRider(bill.Id);
+			break;
+		}
+		case 4:{//rider
+			changeStatusBillToDelivery(bill.Id);
+			break;
+		}
+		case 5:{ //rider
+			changeStatusBillToPay(bill.Id);
+			break;
+		}
+		case 6:{ //rider
+			changeStatusBillToReceiveMoney(bill.Id);
+			break;
+		}
+	}
+}
+
+checkCurrentStatusBill(billId): int{
+	return -2|-1|0|1|2|3|4|5|6|7;
+}
+
+changeStatusBillToSuccess(billId): boolean{
+	deliveryToSuitableBranch(bill);
+}
+
+deliveryToSuitableBranch(bill){
+	suitableBranch = findSuitableBranch(bill.longitude, bill.latitude, bill.address, bill.promotion);
+}
+
+findSuitableBranch(bill): string{
+	if(!checkStock(bill.branchId)){
+		return;
+	}
+}
+
+changeStatusBillToDistribute(billId): boolean{
+	
+}
+
+changeStatusBillToHandle(billId): boolean{
+	
+}
+
+changeStatusBillToPrepare(billId): boolean{
+	
+}
+
+changeStatusBillToSendRider(billId): boolean{
+	
+}
+
+changeStatusBillToDelivery(billId): boolean{
+	
+}
+
+changeStatusBillToPay(billId): boolean{
+	updateTrustPointForCustomer(addTrustPointOfCustomer);
+}
+
+changeStatusBillToReceiveMoney(billId): boolean{
+	
+}
+
+changeStatusBillToCancel(billId, minusTrustPointOfCustomer): boolean{
+	updateTrustPointForCustomer(minusTrustPointOfCustomer);
+}
+
+addStatusBillToUpdate(billId): boolean{
+	
+}
+
+checkTrustPoint(): int{
+	
+}
+
+updateTrustPointForCustomer(trustPointOfCustomer){
+	
+}
+
+updateBillInformation(accessToken, billSubFee, bill){
+	if(checkAccessTokenToUpdateBillInformation(accessToken)){
+		updateBillSubFee(bill.id, billSubFee);
+		addStatusBillToUpdate(bill.Id);
+	}
+}
