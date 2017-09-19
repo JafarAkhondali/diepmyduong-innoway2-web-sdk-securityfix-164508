@@ -29,4 +29,24 @@ export class Bill extends Crud {
         return row;
     }
 
+    async calculateShipFee(data){
+        let access_token = await this.getAccessToken()
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url('/calculate_ship_fee'),
+            "method": "POST",
+            "headers": {
+                "content-type": "application/json",
+                "access_token": access_token,
+            },
+            "processData": false,
+            "data": JSON.stringify(data)
+        }
+
+        var res:any = await this.exec(settings);
+        var row = res.results.object;
+        return row;
+    }
+
 }
