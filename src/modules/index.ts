@@ -36,12 +36,13 @@ import { Basket } from './basket';
 import { Unit } from './unit';
 
 import { Promotion } from './promotion';
+import { PromotionType } from './promotion_type';
 
 import { Auth } from './auth';
 
 //Khai báo module được sử dụng
 const classes = { 
-	  info: new Info(),
+	info: new Info(),
     brand: new Brand(),
     branch: new Branch(),
     branch_working_schedule: new BranchWorkingSchedule(),
@@ -78,6 +79,7 @@ const classes = {
     unit: new Unit(),
 
     promotion: new Promotion(),
+    promotion_type: new PromotionType(),
 
     auth: new Auth()
 };
