@@ -79,18 +79,18 @@ export class Basket extends Base {
         if(items.length === 0){
             throw new Error("Empty Basket");
         }
-        data.items = items.map(i =>{
+        data.bill_items = items.map(i =>{
             return {
                 "product_id": i.id,
                 "amount": i.amount,
                 "topping_value_ids": i.toppings
             }
         });
-        data.channel_id = "facebook";
-        data.basket = {
-            items: items,
-            totalPrice: this.totalPrice
-        };
+        // data.channel_id = "facebook";
+        // data.basket = {
+        //     items: items,
+        //     totalPrice: this.totalPrice
+        // };
         var bill = await billService.sendBill(data);
         this.clear();
         return bill;
