@@ -1,6 +1,8 @@
 import { Info } from './info';
 
 import { Brand } from './brand';
+import { BrandShip } from './brand_ship';
+
 import { Branch } from './branch';
 import { BranchWorkingSchedule } from './branch_working_schedule';
 
@@ -30,6 +32,7 @@ import { BillShipDetail } from './bill_ship_detail';
 import { BillSubFee } from './bill_sub_fee';
 
 import { ShipFee } from './ship_fee';
+import { ShipArea } from './ship_area';
 
 import { Basket } from './basket';
 
@@ -44,6 +47,8 @@ import { Auth } from './auth';
 const classes = { 
 	info: new Info(),
     brand: new Brand(),
+    brand_ship: new BrandShip(),
+
     branch: new Branch(),
     branch_working_schedule: new BranchWorkingSchedule(),
 
@@ -73,6 +78,7 @@ const classes = {
     bill_sub_fee: new BillSubFee(),
 
     ship_fee: new ShipFee(),
+    ship_area: new ShipArea(),
 
     basket: new Basket(),
     
