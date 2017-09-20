@@ -39,26 +39,28 @@
           AkitLogin();
         })
       });
+      var authService = innoway2.api.module('auth');
+      authService.getAuthState().then(onState);
+      $(authService).on('on_auth_change',(e,state)=>{
+        onState(state);
+      })
 
-      $(customerSerivce).on('on_auth_change',(e,state)=>{
-        console.log("ON STATE CHANGE",state);
+      function onState(state){
+        console.log('on state',state);
         if(state){
           $button.hide();
           $customer.show();
-          console.log("ID",customerSerivce);
-          $customer_id.html(customerSerivce.info.id);
+          $customer_id.html(authService.userInfo.id);
         }else{
-          innoway2.api.isReady().then(()=>{  
-            AkitLogin();
-          });
+          AkitLogin();
         }
-      })
+      }
 
       function AkitLogin(){
-        customerSerivce.AKitInit().then(()=>{
+        authService.AKitInit().then(()=>{
           $button = $('#verify_button');
           $button.on('click',()=>{
-            customerSerivce.AKitLogin("+84","").then(user =>{
+            authService.AKitLogin("+84","").then(user =>{
                 console.log("User",user);
             });
           });
@@ -67,30 +69,30 @@
 
 
       
-      // //Test Product
-      var productService = innoway2.api.module('product');
-      $(productService).on('on_change',(e,data) =>{
-        console.log('products',data.items);
-      })
+      // // //Test Product
+      // var productService = innoway2.api.module('product');
+      // $(productService).on('on_change',(e,data) =>{
+      //   console.log('products',data.items);
+      // })
 
-      var categoryService = innoway2.api.module('product_category');
-      $(categoryService).on('on_change',(e,data) =>{
-        console.log('categories',data.items);
-      })
+      // var categoryService = innoway2.api.module('product_category');
+      // $(categoryService).on('on_change',(e,data) =>{
+      //   console.log('categories',data.items);
+      // })
 
-      // var toppingService = innoway2.api.module('topping');
-      // var toppingValueService = innoway2.api.module('topping_value');
+      // // var toppingService = innoway2.api.module('topping');
+      // // var toppingValueService = innoway2.api.module('topping_value');
 
-      var product_id = "e64d9840-91e6-11e7-b757-97cd2eaab21f";
-      var topping_id = "c202d100-963f-11e7-b69a-97988cbacf7c";
-      productService.updateToppings(product_id,[]).then(res =>{
-        console.log('updated',res);
-        productService.addToppings(product_id,[
-          topping_id
-        ]).then(res =>{
-          console.log('added',res);
-        })
-      })
+      // var product_id = "e64d9840-91e6-11e7-b757-97cd2eaab21f";
+      // var topping_id = "c202d100-963f-11e7-b69a-97988cbacf7c";
+      // productService.updateToppings(product_id,[]).then(res =>{
+      //   console.log('updated',res);
+      //   productService.addToppings(product_id,[
+      //     topping_id
+      //   ]).then(res =>{
+      //     console.log('added',res);
+      //   })
+      // })
      
       // productService.getToppings(product_id).then(toppings =>{
       //   console.log('TOPPINGS',toppings);
