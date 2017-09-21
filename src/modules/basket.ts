@@ -80,10 +80,11 @@ export class Basket extends Base {
             throw new Error("Empty Basket");
         }
         data.bill_items = items.map(i =>{
+            let topping_value_ids = _.compact(i.toppings)
             return {
                 "product_id": i.id,
                 "amount": i.amount,
-                "topping_value_ids": _.compact(i.toppings)
+                "topping_value_ids": topping_value_ids
             }
         });
         // data.channel_id = "facebook";
