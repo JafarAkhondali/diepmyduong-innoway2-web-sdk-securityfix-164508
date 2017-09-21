@@ -83,7 +83,7 @@ export class Basket extends Base {
             return {
                 "product_id": i.id,
                 "amount": i.amount,
-                "topping_value_ids": i.toppings
+                "topping_value_ids": _.compact(i.toppings)
             }
         });
         // data.channel_id = "facebook";
