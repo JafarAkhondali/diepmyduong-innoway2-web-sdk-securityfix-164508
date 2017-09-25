@@ -11,6 +11,9 @@
       <h1>Customer ID : <span id="customer_id"></span></h1>
       <button id="logout_button">Logout</button>
     </div>
+    <pre id="promotions">
+
+    </pre>
     
     <script src="dist/assets/js/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
@@ -27,12 +30,13 @@
       $customer = $('#customer');
       $customer_id = $('#customer_id');
       $logout_button = $('#logout_button');
+      $promotions = $('#promotions');
       
       $brand_id.html(innoway2.config.get('brand_id'));
       var customerSerivce = innoway2.api.module('customer');
 
       $logout_button.on('click',()=>{
-        customerSerivce.logout().then(()=>{
+        authService.logout().then(()=>{
           $button.show();
           $customer.hide();
           $customer_id.html("");
@@ -51,6 +55,7 @@
           $button.hide();
           $customer.show();
           $customer_id.html(authService.userInfo.id);
+          getPromotions(authService.userInfo);
         }else{
           AkitLogin();
         }
@@ -65,6 +70,16 @@
             });
           });
         });
+      }
+
+      function getPromotions(user){
+        let { id } = user
+        console.log('get promotion');
+        let customerService = innoway2.api.module('customer')
+        customerSerivce.getPromotions(id).then(promotions =>{
+          console.log('promotions',promotions)
+          $promotions.text(JSON.stringify(promotions,null,2))
+        })
       }
 
 

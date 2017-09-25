@@ -170,7 +170,7 @@ export class Crud extends Base{
         return deleted;
     }
 
-    private _paserQuery(query:any = {}){
+    protected _paserQuery(query:any = {}){
         if(query.filter){
             query.filter = encodeURIComponent(JSON.stringify(query.filter));
         }
