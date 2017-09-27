@@ -43,7 +43,10 @@ module.exports = {
   },
   'plugins': [],
   'resolve': {
-    'root': [path.resolve('./src')],
+    'root': [
+      path.resolve('./src'),
+      'node_modules'
+    ],
     'extensions': ['', '.js', '.jsx', '.ts', '.tsx'],
 
     // this is only required when we "import 'jquery'"

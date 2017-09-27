@@ -42,6 +42,7 @@ import { Promotion } from './promotion';
 import { PromotionType } from './promotion_type';
 
 import { Auth } from './auth';
+import { Firebase } from './firebase'
 
 //Khai báo module được sử dụng
 const classes = { 
@@ -87,7 +88,8 @@ const classes = {
     promotion: new Promotion(),
     promotion_type: new PromotionType(),
 
-    auth: new Auth()
+    auth: new Auth(),
+    firebase: new Firebase(),
 };
 
 export default function Module(name) {

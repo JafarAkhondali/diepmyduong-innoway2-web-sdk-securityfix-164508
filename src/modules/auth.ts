@@ -1,7 +1,9 @@
 import { Base } from './base';
-import { Api } from '../api';
-import { Config } from '../config';
-import { Vendor,Timeout } from '../utils/helper';
+import { Api } from 'api';
+import { Config } from 'config';
+import { Vendor,Timeout } from 'utils/helper';
+import { Info } from './info'
+import { Firebase } from './firebase'
 
 declare var $,AccountKit,window:any;
 export class Auth extends Base {
@@ -18,6 +20,9 @@ export class Auth extends Base {
     customer_verify_token:string
     employee_token:string
     customer_token:string
+    firebase_token:string
+    firebase_id_token:string
+    firebase_account:any
     
     set authenticated(state:boolean){
         this._authState = state;
@@ -101,6 +106,7 @@ export class Auth extends Base {
             let row = res.results.object
             this.userInfo = row.user
             this.employee_token = row.access_token
+            await this.loginFirebaseAccount(this.employee_token)
             Api.setAccessToken(row.access_token)
             this.authenticated = true
             return row
@@ -112,9 +118,10 @@ export class Auth extends Base {
 
     async logout(){
         let token = await this.getAnonymouseToken(Config.get('brand_id'))
-        Api.setAccessToken(token);
-        this.userInfo = undefined;
-        this.authenticated = false;
+        Api.setAccessToken(token)
+        this.userInfo = undefined
+        this.authenticated = false
+        await this.logoutFirebaseAccount()
         return true;
     }
 
@@ -213,5 +220,26 @@ export class Auth extends Base {
                 }
             });
         })    
+    }
+
+    async loginFirebaseAccount(token){
+        let infoService:Info = Api.module('info')
+        let firebaseService:Firebase = Api.module('firebase')
+        let tokenInfo = await infoService.getTokenInfo(token)
+        if(tokenInfo.payload.firebase_token){
+            this.firebase_account = await firebaseService.auth.signInWithCustomToken(tokenInfo.payload.firebase_token)
+            this.firebase_token = await this.firebase_account.getToken()
+            this.firebase_id_token = await this.firebase_account.getIdToken()
+        }else{
+            throw new Error('Cannot sign up firebase with this token')
+        }
+    }
+
+    async logoutFirebaseAccount(){
+        let firebaseService:Firebase = Api.module('firebase')
+        await firebaseService.auth.signOut()
+        this.firebase_account = null
+        this.firebase_token = null
+        this.firebase_id_token = null
     }
 }
