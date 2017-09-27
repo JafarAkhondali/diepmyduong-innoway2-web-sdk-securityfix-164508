@@ -22,6 +22,7 @@ export class Auth extends Base {
     customer_token:string
     firebase_token:string
     firebase_id_token:string
+    firebase_message_token:string
     firebase_account:any
     
     set authenticated(state:boolean){
@@ -72,6 +73,7 @@ export class Auth extends Base {
             let res:any = await this.exec(settings)
             let row = res.results.object
             this.userInfo = row
+            await this.loginFirebaseAccount(token)
             Api.setAccessToken(token)
             this.authenticated = true
             return row
@@ -230,6 +232,7 @@ export class Auth extends Base {
             this.firebase_account = await firebaseService.auth.signInWithCustomToken(tokenInfo.payload.firebase_token)
             this.firebase_token = await this.firebase_account.getToken()
             this.firebase_id_token = await this.firebase_account.getIdToken()
+            this.firebase_message_token = await firebaseService.getMessageToken()
         }else{
             throw new Error('Cannot sign up firebase with this token')
         }
@@ -241,5 +244,6 @@ export class Auth extends Base {
         this.firebase_account = null
         this.firebase_token = null
         this.firebase_id_token = null
+        this.firebase_message_token = null
     }
 }

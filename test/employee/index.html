@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="manifest" href="/manifest.json">
     <title>Foo</title>
   </head>
+
+  <script src="/firebase-messaging-sw.js"></script>
   <body>
     <h1>Innoway 2</h1>
     <h1>Brand ID: <span id="brand_id"></span></h1>
@@ -40,11 +43,28 @@
       
       $brand_id.html(innoway2.config.get('brand_id'));
       var authService = innoway2.api.module('auth');
+      var firebaseService = innoway2.api.module('firebase');
+      var billService = innoway2.api.module('bill');
       authService.getAuthState().then(onState);
       $(authService).on('on_auth_change',(e,state)=>{
         onState(state);
       })
-
+      $(firebaseService).on('on_token_change',(e,token) =>{
+        console.log('Get Firebase Token',token)
+      })
+      $(firebaseService).on('on_message',(e,payload)=>{
+        console.log('Get Firebase Message',payload)
+      })
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then((registration) => {
+          firebaseService.messaging.useServiceWorker(registration);
+          console.error('servicer worker registed',registration)
+          // Request permission and get token.....
+        }).catch(err =>{
+          console.error('servicer worker regis ERROR',err)
+        })
+      }
       function onState(state){
         console.log('on state',state);
         if(state){
@@ -53,7 +73,9 @@
             innoway2.api.getAccessToken().then(token =>{
               $access_token.html(token)
             })
-            
+            billService.subscribe().then(res =>{
+              console.log('bill subscriber success',res)
+            })
             $frm_login.hide()
         }else{
             $employee.hide()

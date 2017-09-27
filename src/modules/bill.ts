@@ -1,5 +1,6 @@
 import { Crud } from './crud';
 import { Api } from '../api';
+import { Auth } from './auth'
 
 export class Bill extends Crud {
 
@@ -49,4 +50,28 @@ export class Bill extends Crud {
         return row;
     }
 
+    async subscribe(){
+        let authService:Auth = Api.module('auth')
+        let access_token = await this.getAccessToken()
+        console.log(authService.firebase_message_token)
+        let data = {
+            registration_token: authService.firebase_message_token,
+        }
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url('/subscribe'),
+            "method": "POST",
+            "headers": {
+                "content-type": "application/json",
+                "access_token": access_token,
+            },
+            "processData": false,
+            "data": JSON.stringify(data)
+        }
+
+        var res:any = await this.exec(settings);
+        var row = res.results.object;
+        return row;
+    }
 }

@@ -16,7 +16,8 @@ export class Firebase extends Base {
     
     hasNotifyPermission = false
     events:any = {
-        ON_TOKEN_CHANGE: "on_token_change"
+        ON_TOKEN_CHANGE: "on_token_change",
+        ON_MESSAGE: 'on_message'
     }
     current_token:string
 
@@ -27,6 +28,7 @@ export class Firebase extends Base {
         .then(()=>{
             this.hasNotifyPermission = true
             this.handleRefeshToken()
+            this.handleMessages()
         }).catch(err =>{
             this.hasNotifyPermission = false
         })
@@ -52,20 +54,31 @@ export class Firebase extends Base {
         return firebase.storage()
     }
 
-    async getToken(){
-        let token = await this.messaging.getToken()
-        if(!token){
-            await this.messaging.requestPermission()
-            this.hasNotifyPermission = true
-            return await this.getToken()
+    async getMessageToken(){
+        try {
+            let token = await this.messaging.getToken()
+            if(!token){
+                await this.messaging.requestPermission()
+                this.hasNotifyPermission = true
+                return await this.getMessageToken()
+            }
+            $(this).trigger(this.events.ON_TOKEN_CHANGE,token)
+            return token
+        }catch(err){
+            console.log('Cannot get message token', err.message)
+            return null
         }
-        $(this).trigger(this.events.ON_TOKEN_CHANGE,{ token })
-        return token
     }
 
     private handleRefeshToken(){
         this.messaging.onTokenRefresh(function() {
             this.getToken()
+        });
+    }
+
+    private handleMessages(){
+        this.messaging.onMessage(function(payload) {
+            $(this).trigger(this.events.ON_MESSAGE,payload)
         });
     }
 }
