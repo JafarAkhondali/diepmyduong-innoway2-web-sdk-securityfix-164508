@@ -20,18 +20,35 @@ export class Firebase extends Base {
         ON_MESSAGE: 'on_message'
     }
     current_token:string
+    registration:ServiceWorkerRegistration
 
     constructor(){
         super("auth");
+        
         firebase.initializeApp(this.config);
-        this.messaging.requestPermission()
-        .then(()=>{
-            this.hasNotifyPermission = true
-            this.handleRefeshToken()
-            this.handleMessages()
-        }).catch(err =>{
-            this.hasNotifyPermission = false
-        })
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/assets/firebase-messaging-sw.js').then(registration => {
+                console.log('Service Worker registered');
+                this.registration = registration
+                this.messaging.useServiceWorker(registration)
+                this.messaging.requestPermission()
+                .then(()=>{
+                    this.hasNotifyPermission = true
+                    this.handleRefeshToken()
+                    this.messaging.onMessage(this.handleMessages.bind(this))
+                    navigator.serviceWorker.addEventListener('message', event => {
+                        if('from' in event.data){
+                            this.handleMessages(event.data)
+                        }
+                    });
+                }).catch(err =>{
+                    this.hasNotifyPermission = false
+                })
+            }).catch(err => {
+                console.log('Service Worker registration failed: ', err);
+            });
+        }
+        
     }
 
     get instance(){
@@ -76,9 +93,14 @@ export class Firebase extends Base {
         });
     }
 
-    private handleMessages(){
-        this.messaging.onMessage(function(payload) {
-            $(this).trigger(this.events.ON_MESSAGE,payload)
-        });
+    private handleMessages(payload){
+        try {
+            payload.data.json = JSON.parse(payload.data.json) 
+        }catch(err){
+            payload.data.json = null
+        }
+        $(this).trigger(this.events.ON_MESSAGE,payload.data)
     }
+
+    
 }
