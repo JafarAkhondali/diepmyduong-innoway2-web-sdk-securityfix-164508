@@ -50,9 +50,9 @@
       $(firebaseService).on('on_token_change',(e,token) =>{
         console.log('Get Firebase Token',token)
       })
-      $(firebaseService).on('on_message',(e,payload)=>{
-        console.log('Get Firebase Message',payload)
-      })
+      // $(firebaseService).on('on_message',(e,payload)=>{
+      //   console.log('Get Firebase Message',payload)
+      // })
       function onState(state){
         if(state){
             $employee.show()
@@ -61,6 +61,9 @@
               $access_token.html(token)
             })
             billService.subscribe().then(res =>{
+              res.subscribe(data =>{
+                console.log('bills data',data)
+              })
               console.log('bill subscriber success',res)
             })
             $frm_login.hide()

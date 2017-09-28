@@ -1,6 +1,10 @@
 import { Crud } from './crud';
 import { Api } from '../api';
-import { Auth } from './auth'
+import { Auth } from './auth';
+import { Observable } from 'rxjs/Observable'
+import { Firebase } from './firebase'
+
+declare var $:any;
 
 export class Bill extends Crud {
 
@@ -71,7 +75,13 @@ export class Bill extends Crud {
         }
 
         var res:any = await this.exec(settings);
-        var row = res.results.object;
-        return row;
+        return new Observable(sub =>{
+            let firebaseService:Firebase = Api.module('firebase')
+            $(firebaseService).on('on_message',(e,data)=>{
+                if(data.topic == 'bills'){
+                    sub.next(data.json)
+                }
+            })
+        })
     }
 }
