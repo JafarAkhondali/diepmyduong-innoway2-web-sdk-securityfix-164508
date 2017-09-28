@@ -23,7 +23,7 @@ export class Firebase extends Base {
     registration:ServiceWorkerRegistration
 
     constructor(){
-        super("auth");
+        super("firebase");
         
         firebase.initializeApp(this.config);
         if ('serviceWorker' in navigator) {
