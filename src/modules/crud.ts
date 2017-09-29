@@ -171,21 +171,22 @@ export class Crud extends Base{
     }
 
     protected _paserQuery(query:any = {}){
+        let parsedQuery = _.merge({},query)
         if(query.filter){
-            query.filter = encodeURIComponent(JSON.stringify(query.filter));
+            parsedQuery.filter = encodeURIComponent(JSON.stringify(query.filter));
         }
         if(query.order){
-            query.order = encodeURIComponent(JSON.stringify(query.order));
+            parsedQuery.order = encodeURIComponent(JSON.stringify(query.order));
         }
         if(query.scopes){
-            query.scopes = encodeURIComponent(JSON.stringify(query.scopes));
+            parsedQuery.scopes = encodeURIComponent(JSON.stringify(query.scopes));
         }
         if(query.fields){
-            query.fields = encodeURIComponent(JSON.stringify(query.fields));
+            parsedQuery.fields = encodeURIComponent(JSON.stringify(query.fields));
         }
         if(query.items){
-            query.items = encodeURIComponent(JSON.stringify(query.items));
+            parsedQuery.items = encodeURIComponent(JSON.stringify(query.items));
         }
-        return query;
+        return parsedQuery;
     }
 }

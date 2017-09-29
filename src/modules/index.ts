@@ -43,6 +43,7 @@ import { PromotionType } from './promotion_type';
 
 import { Auth } from './auth';
 import { Firebase } from './firebase'
+import { Media } from './media'
 
 //Khai báo module được sử dụng
 const classes = { 
@@ -90,6 +91,7 @@ const classes = {
 
     auth: new Auth(),
     firebase: new Firebase(),
+    media: new Media(),
 };
 
 export default function Module(name) {
