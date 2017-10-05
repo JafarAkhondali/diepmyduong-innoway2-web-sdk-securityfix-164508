@@ -141,7 +141,9 @@ export class Bill extends Crud {
                 "access_token": access_token,
             },
             "processData": false,
-            "data": JSON.stringify(data)
+            "data": JSON.stringify({
+              note
+            })
         }
         console.log("activity enum",this.ActivityEnum)
         switch(activity){
@@ -153,8 +155,7 @@ export class Bill extends Crud {
         }
 
         let res:any = await this.exec(settings);
-        let row = res.results.object;
-        return row;
+        return res;
     }
 
 
