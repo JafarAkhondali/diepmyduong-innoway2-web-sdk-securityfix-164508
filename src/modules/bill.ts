@@ -148,85 +148,85 @@ export class Bill extends Crud {
     console.log("activity enum", this.ActivityEnum)
     switch (activity) {
       case this.ActivityEnum.BILL_SENT_SUCCESSFULLY:
-        settings.url = this.url('/${bill_id}/activity/sentSuccessfullyBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/sentSuccessfullyBillStatus`);
         break;
       case this.ActivityEnum.BILL_DISTRIBUTED:
-        settings.url = this.url('/${bill_id}/activity/distributedBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/distributedBillStatus`);
         break;
       case this.ActivityEnum.BILL_WAITING_FOR_CONFIRMATION:
-        settings.url = this.url('/${bill_id}/activity/waitingForConfirmationBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/waitingForConfirmationBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_WAITING_FOR_CONFIRMATION:
-        settings.url = this.url('/${bill_id}/activity/waitingForConfirmationBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/waitingForConfirmationBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_WAITING_FOR_CONFIRMATION:
-        settings.url = this.url('/${bill_id}/activity/waitingForConfirmationBillStatus/cancelled');
+        settings.url = this.url(`/${bill_id}/activity/waitingForConfirmationBillStatus/cancelled`);
         break;
       case this.ActivityEnum.BILL_CONFIRMED:
-        settings.url = this.url('/${bill_id}/activity/confirmedBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/confirmedBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_BILL_CONFIRMED:
-        settings.url = this.url('/${bill_id}/activity/confirmedBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/confirmedBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_BILL_CONFIRMED:
-        settings.url = this.url('/${bill_id}/activity/confirmedBillStatus/cancelled');
+        settings.url = this.url(`/${bill_id}/activity/confirmedBillStatus/cancelled`);
         break;
       case this.ActivityEnum.BILL_PICKING_UP:
-        settings.url = this.url('/${bill_id}/activity/pickingUpBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/pickingUpBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_PICKING_UP:
-        settings.url = this.url('/${bill_id}/activity/pickingUpBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/pickingUpBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_PICKING_UP:
-        settings.url = this.url('/${bill_id}/activity/pickingUpBillStatus/cancelled');
+        settings.url = this.url(`/${bill_id}/activity/pickingUpBillStatus/cancelled`);
         break;
       case this.ActivityEnum.BILL_RECEIVED:
-        settings.url = this.url('/${bill_id}/activity/receivedBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/receivedBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_RECEIVED:
-        settings.url = this.url('/${bill_id}/activity/receivedBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/receivedBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_RECEIVED:
-        settings.url = this.url('/${bill_id}/activity/receivedBillStatus/cancelled');
+        settings.url = this.url(`/${bill_id}/activity/receivedBillStatus/cancelled`);
         break;
       case this.ActivityEnum.BILL_PROCESSING:
-        settings.url = this.url('/${bill_id}/activity/processingBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/processingBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_PROCESSING:
-        settings.url = this.url('/${bill_id}/activity/processingBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/processingBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_PROCESSING:
-        settings.url = this.url('/${bill_id}/activity/processingBillStatus/deleted');
+        settings.url = this.url(`/${bill_id}/activity/processingBillStatus/deleted`);
         break;
       case this.ActivityEnum.BILL_PREPARED:
-        settings.url = this.url('/${bill_id}/activity/preparedBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/preparedBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_PREPARED:
-        settings.url = this.url('/${bill_id}/activity/preparedBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/preparedBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_PREPARED:
-        settings.url = this.url('/${bill_id}/activity/preparedBillStatus/cancelled');
+        settings.url = this.url(`/${bill_id}/activity/preparedBillStatus/cancelled`);
         break;
       case this.ActivityEnum.BILL_SENT_SHIPPER:
-        settings.url = this.url('/${bill_id}/activity/sentShipperBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/sentShipperBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_SENT_SHIPPER:
-        settings.url = this.url('/${bill_id}/activity/sentShipperBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/sentShipperBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_CANCELLED_AT_SENT_SHIPPER:
-        settings.url = this.url('/${bill_id}/activity/sentShipperBillStatus/cancelled');
+        settings.url = this.url(`/${bill_id}/activity/sentShipperBillStatus/cancelled`);
         break;
       case this.ActivityEnum.BILL_PAID:
-        settings.url = this.url('/${bill_id}/activity/paidBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/paidBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_PAID:
-        settings.url = this.url('/${bill_id}/activity/paidBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/paidBillStatus/modified`);
         break;
       case this.ActivityEnum.BILL_COLLECTED_MONEY:
-        settings.url = this.url('/${bill_id}/activity/collectedMoneyBillStatus');
+        settings.url = this.url(`/${bill_id}/activity/collectedMoneyBillStatus`);
         break;
       case this.ActivityEnum.BILL_MODIFIED_AT_COLLECTED_MONEY:
-        settings.url = this.url('/${bill_id}/activity/collectedMoneyBillStatus/modified');
+        settings.url = this.url(`/${bill_id}/activity/collectedMoneyBillStatus/modified`);
         break;
       default:
         throw new Error('This activity not allow for this bill');
