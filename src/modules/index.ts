@@ -41,57 +41,61 @@ import { Unit } from './unit';
 import { Promotion } from './promotion';
 import { PromotionType } from './promotion_type';
 
+import { PaidHistory } from './paid_history'
+
 import { Auth } from './auth';
 import { Firebase } from './firebase'
 import { Media } from './media'
 
 //Khai báo module được sử dụng
-const classes = { 
-	info: new Info(),
-    brand: new Brand(),
-    brand_ship: new BrandShip(),
+const classes = {
+  info: new Info(),
+  brand: new Brand(),
+  brand_ship: new BrandShip(),
 
-    branch: new Branch(),
-    branch_working_schedule: new BranchWorkingSchedule(),
+  branch: new Branch(),
+  branch_working_schedule: new BranchWorkingSchedule(),
 
-    employee: new Employee(),
-    employee_type: new EmployeeType(),
-    employee_location: new EmployeeLocation(),
+  employee: new Employee(),
+  employee_type: new EmployeeType(),
+  employee_location: new EmployeeLocation(),
 
-    customer: new Customer(),
-    customer_type: new CustomerType(),
-    customer_registration: new CustomerRegistration(),
+  customer: new Customer(),
+  customer_type: new CustomerType(),
+  customer_registration: new CustomerRegistration(),
 
-    product: new Product(),
-    topping: new Topping(),
-    topping_value: new ToppingValue(),
-    product_topping: new ProductTopping(),
-    attribute: new Attribute(),
-    product_attribute: new ProductAttribute(),
-    product_type: new ProductType(),
-    product_category: new ProductCategory(),
-    product_stock: new ProductStock(),
+  product: new Product(),
+  topping: new Topping(),
+  topping_value: new ToppingValue(),
+  product_topping: new ProductTopping(),
+  attribute: new Attribute(),
+  product_attribute: new ProductAttribute(),
+  product_type: new ProductType(),
+  product_category: new ProductCategory(),
+  product_stock: new ProductStock(),
 
-    bill: new Bill(),
-    bill_activity: new BillActivity(),
-    bill_item: new BillItem(),
-    bill_item_topping: new BillItemTopping(),
-    bill_ship_detail: new BillShipDetail(),
-    bill_sub_fee: new BillSubFee(),
+  bill: new Bill(),
+  bill_activity: new BillActivity(),
+  bill_item: new BillItem(),
+  bill_item_topping: new BillItemTopping(),
+  bill_ship_detail: new BillShipDetail(),
+  bill_sub_fee: new BillSubFee(),
 
-    ship_fee: new ShipFee(),
-    ship_area: new ShipArea(),
+  ship_fee: new ShipFee(),
+  ship_area: new ShipArea(),
 
-    basket: new Basket(),
-    
-    unit: new Unit(),
+  basket: new Basket(),
 
-    promotion: new Promotion(),
-    promotion_type: new PromotionType(),
+  unit: new Unit(),
 
-    auth: new Auth(),
-    firebase: new Firebase(),
-    media: new Media(),
+  promotion: new Promotion(),
+  promotion_type: new PromotionType(),
+
+  paid_history: new PaidHistory(),
+
+  auth: new Auth(),
+  firebase: new Firebase(),
+  media: new Media(),
 };
 
 export default function Module(name) {
