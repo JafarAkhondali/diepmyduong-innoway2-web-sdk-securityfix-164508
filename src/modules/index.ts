@@ -47,6 +47,8 @@ import { Auth } from './auth';
 import { Firebase } from './firebase'
 import { Media } from './media'
 
+import {CustomerTypePromotion} from './customer_type_promotion'
+
 //Khai báo module được sử dụng
 const classes = {
   info: new Info(),
@@ -96,6 +98,8 @@ const classes = {
   auth: new Auth(),
   firebase: new Firebase(),
   media: new Media(),
+
+  customer_type_promotion: new CustomerTypePromotion(),
 };
 
 export default function Module(name) {
