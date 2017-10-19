@@ -21,6 +21,49 @@ export class Promotion extends Crud {
         }
         let res:any = await this.exec(settings);
         return true;
-    }   
+    }
+
+    async addCustomerTypes(id,customer_type_ids){
+        let access_token = await this.getAccessToken()
+
+        let settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url(`/${id}/customer_types`),
+            "headers": {
+                "content-type": "application/json",
+                "access_token": access_token,
+            },
+            "method": "POST",
+            "data": JSON.stringify({
+                customer_type_ids
+            })
+        }
+        let res:any = await this.exec(settings);
+        let rows = res.results.object.rows
+        return rows;
+    }
+
+    async updateCustomerType(id,customer_type_ids){
+        let access_token = await this.getAccessToken()
+
+        let settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": this.url(`/${id}/customer_types`),
+            "headers": {
+                "content-type": "application/json",
+                "access_token": access_token,
+            },
+            "method": "PUT",
+            "data": JSON.stringify({
+                customer_type_ids
+            })
+        }
+        let res:any = await this.exec(settings);
+        let rows = res.results.object.rows
+        return rows;
+    }
+
 
 }
