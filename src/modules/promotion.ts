@@ -82,8 +82,7 @@ export class Promotion extends Crud {
       })
     }
     let res: any = await this.exec(settings);
-    let rows = res.results.object.rows
-    return rows;
+    return res;
   }
 
 
