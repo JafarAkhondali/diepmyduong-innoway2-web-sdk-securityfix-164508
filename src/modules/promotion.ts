@@ -65,7 +65,7 @@ export class Promotion extends Crud {
     return rows;
   }
 
-  async sendPromotionToMessenger(id, customer_type_ids, message) {
+  async sendPromotionToMessenger(id, message) {
     let access_token = await this.getAccessToken()
 
     let settings = {
@@ -78,7 +78,7 @@ export class Promotion extends Crud {
       },
       "method": "POST",
       "data": JSON.stringify({
-        customer_type_ids, message
+         message
       })
     }
     let res: any = await this.exec(settings);
