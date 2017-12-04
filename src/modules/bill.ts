@@ -129,6 +129,44 @@ export class Bill extends Crud {
     })
   }
 
+  async orderAtStore(data) {
+    //   {
+    //     "address": "HCM 2",
+    // 	"sub_fee": 100,
+    // 	"sub_fee_note": "Phi tao lao",
+    //     "channel": "at_store",
+    //     "pay_amount": 500000,
+    //     "receive_amount": 1000000,
+    //     "products": [
+    //     	{
+    //     		"product_id": "56961870-ce8c-11e7-8616-257624d2357e",
+    //     		"amount": 10,
+    //     		"topping_value_ids": []
+    //     	}
+    //     ]
+    // }
+    let { address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products } = data;
+    const access_token = await this.getAccessToken()
+    let settings: any = {
+      "async": true,
+      "crossDomain": true,
+      "method": "POST",
+      "url": this.url('/order_at_store'),
+      "headers": {
+        "content-type": "application/json",
+        "access_token": access_token,
+      },
+      "processData": false,
+      "data": JSON.stringify({
+        address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products
+      })
+    }
+
+    var res: any = await this.exec(settings);
+    var row = res.results.object;
+    return row;
+  }
+
   async changeActivity(bill_id, data) {
     let { activity, employee_id, note } = data
     const access_token = await this.getAccessToken()
