@@ -130,7 +130,7 @@ export class Bill extends Crud {
   }
 
   async changeActivity(bill_id, data) {
-    let { activity, note } = data
+    let { activity, employee_id, note } = data
     const access_token = await this.getAccessToken()
     let settings: any = {
       "async": true,
@@ -142,7 +142,7 @@ export class Bill extends Crud {
       },
       "processData": false,
       "data": JSON.stringify({
-        note
+        employee_id, note
       })
     }
     console.log("activity enum", this.ActivityEnum)
