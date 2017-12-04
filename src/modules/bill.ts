@@ -162,9 +162,8 @@ export class Bill extends Crud {
       })
     }
 
-    var res: any = await this.exec(settings);
-    var row = res.results.object;
-    return row;
+    let res: any = await this.exec(settings);
+    return res;
   }
 
   async changeActivity(bill_id, data) {
