@@ -130,21 +130,6 @@ export class Bill extends Crud {
   }
 
   async orderAtStore(data) {
-    //   {
-    //     "address": "HCM 2",
-    // 	"sub_fee": 100,
-    // 	"sub_fee_note": "Phi tao lao",
-    //     "channel": "at_store",
-    //     "pay_amount": 500000,
-    //     "receive_amount": 1000000,
-    //     "products": [
-    //     	{
-    //     		"product_id": "56961870-ce8c-11e7-8616-257624d2357e",
-    //     		"amount": 10,
-    //     		"topping_value_ids": []
-    //     	}
-    //     ]
-    // }
     let { address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products } = data;
     const access_token = await this.getAccessToken()
     let settings: any = {
