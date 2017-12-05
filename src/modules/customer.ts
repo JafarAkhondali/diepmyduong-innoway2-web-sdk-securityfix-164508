@@ -173,7 +173,7 @@ export class Customer extends Crud {
       },
       "processData": false,
       "data": JSON.stringify({
-        data
+        phone
       })
     }
 
