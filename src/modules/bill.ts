@@ -130,7 +130,7 @@ export class Bill extends Crud {
   }
 
   async orderAtStore(data) {
-    let { address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products, branch_id} = data;
+    let { address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products, branch_id, employee_id} = data;
     const access_token = await this.getAccessToken()
     let settings: any = {
       "async": true,
@@ -143,7 +143,7 @@ export class Bill extends Crud {
       },
       "processData": false,
       "data": JSON.stringify({
-        address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products, branch_id
+        address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products, branch_id, employee_id
       })
     }
 
