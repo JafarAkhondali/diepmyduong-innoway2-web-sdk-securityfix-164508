@@ -91,9 +91,7 @@ export class Bill extends Crud {
         "access_token": access_token,
       },
       "processData": false,
-      "data": JSON.stringify(
-        longitude, latitude
-      )
+      "data": JSON.stringify(data)
     }
 
     var res: any = await this.exec(settings);
@@ -147,11 +145,7 @@ export class Bill extends Crud {
         "access_token": access_token,
       },
       "processData": false,
-      "data": JSON.stringify({
-        address, longitude, latitude, sub_fee, sub_fee_note,
-        channel, pay_amount, receive_amount, products, note,
-        branch_id, employee_id, promotion_id, customer_id, is_vat
-      })
+      "data": JSON.stringify(data)
     }
 
     var res: any = await this.exec(settings);
@@ -209,13 +203,7 @@ export class Bill extends Crud {
         "access_token": access_token,
       },
       "processData": false,
-      "data": JSON.stringify({
-        address, longitude, latitude, sub_fee, sub_fee_note, channel,
-        pay_amount, receive_amount, products, branch_id, employee_id,
-        promotion_id, customer_id, received_time, is_vat, ship_method, note,
-        receiver_name, receiver_phone, receiver_address, receiver_note,
-        payer_name, payer_phone, payer_address, payer_note
-      })
+      "data": JSON.stringify(data)
     }
 
     var res: any = await this.exec(settings);
