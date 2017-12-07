@@ -79,6 +79,7 @@ export class Bill extends Crud {
   }
 
   async calculateShipFee(data) {
+    let { longitude, latitude } = data;
     let access_token = await this.getAccessToken()
     var settings = {
       "async": true,
@@ -90,7 +91,9 @@ export class Bill extends Crud {
         "access_token": access_token,
       },
       "processData": false,
-      "data": JSON.stringify(data)
+      "data": JSON.stringify(
+        longitude, latitude
+      )
     }
 
     var res: any = await this.exec(settings);
@@ -131,7 +134,7 @@ export class Bill extends Crud {
 
   async orderAtStore(data) {
     let { address, longitude, latitude, sub_fee, sub_fee_note,
-      channel, pay_amount, receive_amount, products,
+      channel, pay_amount, receive_amount, products, note,
       branch_id, employee_id, promotion_id, customer_id, is_vat } = data;
     const access_token = await this.getAccessToken()
     let settings: any = {
@@ -146,7 +149,7 @@ export class Bill extends Crud {
       "processData": false,
       "data": JSON.stringify({
         address, longitude, latitude, sub_fee, sub_fee_note,
-        channel, pay_amount, receive_amount, products,
+        channel, pay_amount, receive_amount, products, note,
         branch_id, employee_id, promotion_id, customer_id, is_vat
       })
     }
