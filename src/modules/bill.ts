@@ -130,7 +130,9 @@ export class Bill extends Crud {
   }
 
   async orderAtStore(data) {
-    let { address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products, branch_id, employee_id} = data;
+    let { address, longitude, latitude, sub_fee, sub_fee_note,
+      channel, pay_amount, receive_amount, products,
+      branch_id, employee_id, promotion_id, customer_id, is_vat } = data;
     const access_token = await this.getAccessToken()
     let settings: any = {
       "async": true,
@@ -143,7 +145,73 @@ export class Bill extends Crud {
       },
       "processData": false,
       "data": JSON.stringify({
-        address, sub_fee, sub_fee_note, channel, pay_amount, receive_amount, products, branch_id, employee_id
+        address, longitude, latitude, sub_fee, sub_fee_note,
+        channel, pay_amount, receive_amount, products,
+        branch_id, employee_id, promotion_id, customer_id, is_vat
+      })
+    }
+
+    var res: any = await this.exec(settings);
+    var row = res.results.object;
+    return row;
+  }
+
+  //   {
+  //   "address": "Hoàng Văn Thụ, Phường 4, Tân Bình, Hồ Chí Minh, Vietnam",
+  //   "sub_fee": 0,
+  //   "sub_fee_note": aaaa,
+  //   "channel": "facebook",
+  //   "pay_amount": 0,
+  //   "receive_amount": 0,
+  //   "promotion_id": "9a7a7c50-d9a1-11e7-a603-6d6ec74029cd",
+  //   "customer_id": "7b8274f0-d349-11e7-980d-77ffeca497e2",
+  //   "ship_method": "distance",
+  //   "is_vat": false,
+  //   "latitude": 10.782620,
+  //   "longitude": 106.686703,
+  //   "received_time":"2017-12-06T21:12:08.027Z",
+  //   "receiver_name": "Thanh Liem",
+  // 	"receiver_phone": "0123456789",
+  // 	"receiver_address": "Tra Vinh",
+  // 	"receiver_note": "This is note receiver",
+  // 	"payer_name": "Banh Uy",
+  // 	"payer_phone": "0321654987",
+  // 	"payer_address": "HCMC",
+  // 	"payer_note": "This is note payer",
+  //   "products": [
+  //     {
+  //       "product_id": "56961870-ce8c-11e7-8616-257624d2357e",
+  //       "amount": 1,
+  //       "topping_value_ids": [
+  //         "eb5ad280-d8a9-11e7-bc02-d112325cb157"
+  //       ]
+  //     }
+  //   ]
+  // }
+
+  async orderOnline(data) {
+    let { address, longitude, latitude, sub_fee, sub_fee_note, channel,
+      pay_amount, receive_amount, products, branch_id, employee_id,
+      promotion_id, customer_id, received_time, is_vat, ship_method, note,
+      receiver_name, receiver_phone, receiver_address, receiver_note,
+      payer_name, payer_phone, payer_address, payer_note } = data;
+    const access_token = await this.getAccessToken()
+    let settings: any = {
+      "async": true,
+      "crossDomain": true,
+      "method": "POST",
+      "url": this.url('/order_at_store'),
+      "headers": {
+        "content-type": "application/json",
+        "access_token": access_token,
+      },
+      "processData": false,
+      "data": JSON.stringify({
+        address, longitude, latitude, sub_fee, sub_fee_note, channel,
+        pay_amount, receive_amount, products, branch_id, employee_id,
+        promotion_id, customer_id, received_time, is_vat, ship_method, note,
+        receiver_name, receiver_phone, receiver_address, receiver_note,
+        payer_name, payer_phone, payer_address, payer_note
       })
     }
 
