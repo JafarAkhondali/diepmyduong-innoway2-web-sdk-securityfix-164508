@@ -318,5 +318,24 @@ export class Bill extends Crud {
     return res;
   }
 
+  async summaryBill(data) {
+    let { start_time, end_time } = data;
+    const access_token = await this.getAccessToken()
+    let settings: any = {
+      "async": true,
+      "crossDomain": true,
+      "method": "POST",
+      "url": this.url('/summary_daily'),
+      "headers": {
+        "content-type": "application/json",
+        "access_token": access_token,
+      },
+      "processData": false,
+      "data": JSON.stringify(data)
+    }
 
+    var res: any = await this.exec(settings);
+    var row = res.results.object;
+    return row;
+  }
 }
