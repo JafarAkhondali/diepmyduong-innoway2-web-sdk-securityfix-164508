@@ -186,7 +186,7 @@ export class Bill extends Crud {
   //   ]
   // }
 
-  async orderOnline(data) {
+  async orderOnlineByEmployee(data) {
     let { address, longitude, latitude, sub_fee, sub_fee_note, channel,
       pay_amount, receive_amount, products, branch_id, employee_id,
       promotion_id, customer_id, received_time, is_vat, ship_method, note,
@@ -197,7 +197,7 @@ export class Bill extends Crud {
       "async": true,
       "crossDomain": true,
       "method": "POST",
-      "url": this.url('/order_at_store'),
+      "url": this.url('/order_online_by_employee'),
       "headers": {
         "content-type": "application/json",
         "access_token": access_token,
